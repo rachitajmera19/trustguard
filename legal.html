@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Framework — DT Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+#readingBar { position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0; z-index:9999; }
+
+/* ── Act header block ─────────────────── */
+.act-header {
+  display: flex; align-items: center; gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--bg-dark); color: var(--bg);
+  border-radius: var(--radius) var(--radius) 0 0;
+  border: 1px solid var(--bg-dark);
+}
+.act-num {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,211,180,.6);
+  flex-shrink: 0;
+}
+.act-full-name {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 600;
+  color: rgba(250,250,247,.92); line-height: 1.25;
+}
+.act-year {
+  font-family: var(--mono); font-size: .72rem; color: rgba(255,255,255,.35);
+  margin-top: .2rem;
+}
+
+/* ── Individual section rows ──────────── */
+.act-body {
+  border: 1px solid var(--border); border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+}
+.law-section {
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-card);
+  transition: background .15s;
+}
+.law-section:last-child { border-bottom: none; }
+.law-section:hover { background: #FDFBF9; }
+
+.ls-top {
+  display: flex; align-items: flex-start;
+  gap: 1.25rem; margin-bottom: .85rem;
+}
+.ls-tag {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .08em;
+  text-transform: uppercase; padding: .3rem .8rem;
+  border-radius: 3px; flex-shrink: 0; white-space: nowrap;
+  margin-top: .1rem;
+}
+.ls-tag.active   { background: rgba(192,68,38,.1);  color: var(--accent); }
+.ls-tag.struck   { background: var(--border-light); color: var(--text-light); text-decoration: line-through; }
+.ls-tag.info     { background: var(--blue-light);   color: var(--blue); }
+.ls-tag.success  { background: var(--green-light);  color: var(--green); }
+.ls-tag.warn     { background: var(--amber-light);  color: var(--amber); }
+
+.ls-heading {
+  font-weight: 600; font-size: .95rem; color: var(--text);
+  margin-bottom: .2rem; line-height: 1.35;
+}
+.ls-provision {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .06em;
+  color: var(--text-muted); margin-bottom: .3rem;
+}
+.ls-body { font-size: .85rem; color: var(--text-muted); line-height: 1.75; }
+.ls-body strong { color: var(--text); }
+
+.ls-meta {
+  display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .9rem;
+}
+.ls-meta-item {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-size: .75rem; color: var(--text-muted);
+  background: var(--bg-alt); padding: .25rem .7rem;
+  border-radius: 3px; border: 1px solid var(--border-light);
+}
+.ls-meta-item i { font-size: .85rem; color: var(--accent); }
+
+.struck-note {
+  display: flex; gap: .6rem; padding: .75rem 1rem;
+  background: rgba(192,68,38,.05); border-left: 3px solid var(--accent);
+  margin-top: .85rem; font-size: .8rem; color: var(--text-muted); line-height: 1.6;
+  border-radius: 0 3px 3px 0;
+}
+.struck-note i { color: var(--accent); flex-shrink: 0; font-size: 1rem; margin-top: .05rem; }
+
+/* ── Summary table ────────────────────── */
+.summary-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+.summary-table thead th {
+  text-align: left; padding: .7rem 1rem;
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 2px solid var(--text); font-weight: 500;
+  background: var(--bg-alt);
+}
+.summary-table tbody td {
+  padding: .8rem 1rem; border-bottom: 1px solid var(--border-light);
+  vertical-align: top; line-height: 1.55; color: var(--text-muted);
+}
+.summary-table tbody td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+.summary-table tbody td:nth-child(2) { font-family: var(--mono); font-size: .75rem; color: var(--accent); }
+.summary-table tbody tr:hover td { background: rgba(192,68,38,.02); }
+
+/* ── Telangana timeline ───────────────── */
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.tl-item {
+  display: flex; gap: 1.25rem; padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-dot {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .8rem; font-weight: 700; font-family: var(--mono);
+}
+.tl-dot.done   { background: var(--green-light); color: var(--green); }
+.tl-dot.active { background: rgba(192,68,38,.1); color: var(--accent); }
+.tl-dot.info   { background: var(--blue-light);  color: var(--blue); }
+.tl-year { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; color: var(--text-light); margin-bottom: .2rem; }
+.tl-title { font-weight: 600; font-size: .9rem; color: var(--text); margin-bottom: .25rem; }
+.tl-desc  { font-size: .82rem; color: var(--text-muted); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div id="readingBar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a class="nav-logo" href="../index.html"><span class="logo-accent">DT</span> Digital Harm</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="empathize.html">Empathize</a></li>
+      <li><a href="personas.html">Personas</a></li>
+      <li><a href="define.html">Define</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="ideate.html">Ideate</a></li>
+      <li><a href="solution.html">Solution</a></li>
+      <li><a href="legal.html" class="active">Legal</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="interview-analysis.html">Workshop Notes</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><i class="ti ti-menu-2"></i></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html">Home</a>
+    <a href="empathize.html">Empathize</a>
+    <a href="personas.html">Personas</a>
+    <a href="define.html">Define</a>
+    <a href="case-studies.html">Case Studies</a>
+    <a href="ideate.html">Ideate</a>
+    <a href="solution.html">Solution</a>
+    <a href="legal.html" class="active">Legal</a>
+    <a href="research.html">Research</a>
+    <a href="interview-analysis.html">Workshop Notes</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <a href="../index.html" class="back-btn"><i class="ti ti-arrow-left"></i> Back to Home</a>
+    <div class="page-header-eyebrow">Context · Law</div>
+    <h1>Legal Framework</h1>
+    <p class="page-header-desc">The Indian legal ecosystem governing digital harm — spanning the Information Technology Act 2000, the Indian Penal Code, the IT Amendment Act 2008, and the Digital Personal Data Protection Act 2023. Each provision is written in full below, with its applicability to our project explained.</p>
+  </div>
+</div>
+
+<!-- QUICK REFERENCE TABLE -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label fade-in">Quick Reference</div>
+    <h2 class="section-title fade-in">All sections at a glance</h2>
+    <p class="section-intro fade-in">Eight key legal provisions across four Acts govern the cases and design challenges in this project. Click any row's Act heading below for the full breakdown.</p>
+    <div style="overflow-x:auto" class="fade-in">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Provision Name</th>
+          <th>Act</th>
+          <th>Relevance to Project</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Section 66A</td>
+          <td>Punishment for sending offensive messages</td>
+          <td>IT Act, 2000</td>
+          <td>Covers cyberbullying messages, online harassment campaigns</td>
+          <td><span class="tag tag-no">Struck down 2015</span></td>
+        </tr>
+        <tr>
+          <td>Section 66C</td>
+          <td>Punishment for identity theft</td>
+          <td>IT Act, 2000</td>
+          <td>Fraudulent use of passwords, digital signatures — UPI scams</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Section 66D</td>
+          <td>Cheating by personation using computer resource</td>
+          <td>IT Act, 2000</td>
+          <td>Fake bank/official impersonation calls, "digital arrest" scams</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Section 67</td>
+          <td>Publishing obscene material in electronic form</td>
+          <td>IT Act, 2000</td>
+          <td>Obscene posts targeting Renu Desai; image-based abuse of Shanaya Khan</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Section 43A</td>
+          <td>Compensation for failure to protect data</td>
+          <td>IT Amendment, 2008</td>
+          <td>Platform liability when data breaches enable fraud</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Section 354A</td>
+          <td>Sexual harassment</td>
+          <td>IPC</td>
+          <td>Gendered nature of online abuse targeting women in public life</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Section 354D</td>
+          <td>Stalking</td>
+          <td>IPC</td>
+          <td>Repeated messaging, monitoring, and following online — cyberstalking</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Section 509</td>
+          <td>Word or gesture to insult modesty of a woman</td>
+          <td>IPC</td>
+          <td>Sexually abusive language used in the Renu Desai harassment campaign</td>
+          <td><span class="tag tag-yes">Active</span></td>
+        </tr>
+        <tr>
+          <td>Sections 8 to 11</td>
+          <td>Obligations of data fiduciaries and consent</td>
+          <td>DPDP Act, 2023</td>
+          <td>Governs how our cross-bank freeze system may process and share victim data</td>
+          <td><span class="tag tag-accent">Notified 2023</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 1: IT ACT 2000 -->
+<section class="section" id="it-act">
+  <div class="container">
+    <div class="section-label fade-in">Act 01 of 04</div>
+    <h2 class="section-title fade-in">Information Technology Act, 2000</h2>
+    <p class="section-intro fade-in">India's primary legislation governing cybercrimes and electronic transactions. Enacted on 17 October 2000, it was India's first law to deal with cybercrime and e-commerce. The Act has been significantly amended — most importantly by the IT Amendment Act of 2008.</p>
+
+    <div class="fade-in">
+      <div class="act-header">
+        <div>
+          <div class="act-num">IT Act · 2000 &nbsp;|&nbsp; Parliament of India</div>
+          <div class="act-full-name">Information Technology Act, 2000</div>
+          <div class="act-year">Enacted 17 October 2000 &nbsp;·&nbsp; Amended 2008 &nbsp;·&nbsp; 90 Sections</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <span class="tag tag-yes" style="display:inline-block">In Force</span>
+        </div>
+      </div>
+      <div class="act-body">
+
+        <!-- Section 66A -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag struck">Section 66A</span>
+            <div>
+              <div class="ls-heading">Punishment for Sending Offensive Messages through Communication Service</div>
+              <div class="ls-provision">Information Technology Act, 2000 — Section 66A (now struck down)</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            This section made it a punishable offence — up to three years imprisonment and a fine — to send any information through a computer or communication device that was grossly offensive, menacing, or known to be false but sent for the purpose of causing annoyance, inconvenience, danger, obstruction, insult, injury, criminal intimidation, enmity, hatred, or ill will.
+            <br><br>
+            <strong>Why it mattered:</strong> Section 66A was the most direct provision against online harassment and cyberbullying. It was used in cases involving threatening messages, fake social media profiles created to defame, and coordinated trolling campaigns.
+          </div>
+          <div class="struck-note">
+            <i class="ti ti-alert-circle"></i>
+            <span><strong>Struck down by Supreme Court:</strong> In <em>Shreya Singhal vs. Union of India</em> (2015), the Supreme Court of India struck down Section 66A in its entirety on grounds that it violated Article 19(1)(a) of the Constitution — the fundamental right to freedom of speech and expression. The provision was found to be vague, overbroad, and prone to misuse. Despite this, it remains historically critical because many early cyberbullying FIRs were filed under it, and its removal left a legislative gap that has not been filled.</span>
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-gavel"></i> Struck down — Shreya Singhal vs. UOI, 2015</span>
+            <span class="ls-meta-item"><i class="ti ti-alert-triangle"></i> Legislative gap remains</span>
+          </div>
+        </div>
+
+        <!-- Section 66C -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 66C</span>
+            <div>
+              <div class="ls-heading">Punishment for Identity Theft</div>
+              <div class="ls-provision">Information Technology Act, 2000 — Section 66C</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Whoever, fraudulently or dishonestly makes use of the electronic signature, password, or any other unique identification feature of any other person shall be punished with imprisonment of either description for a term which may extend to three years and shall also be liable to fine which may extend to one lakh rupees.
+            <br><br>
+            <strong>Why it matters for this project:</strong> UPI fraud and phone-based scams almost always involve the fraudster obtaining the victim's OTP, PIN, or account credentials — either by deception or by impersonation. The moment a scammer uses a victim's OTP to authorise a transaction, Section 66C is triggered. This section forms the legal backbone for prosecuting the majority of digital financial fraud cases in India.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Imprisonment up to 3 years</span>
+            <span class="ls-meta-item"><i class="ti ti-cash"></i> Fine up to Rs. 1,00,000</span>
+            <span class="ls-meta-item"><i class="ti ti-device-mobile"></i> Covers OTP theft &amp; UPI fraud</span>
+          </div>
+        </div>
+
+        <!-- Section 66D -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 66D</span>
+            <div>
+              <div class="ls-heading">Punishment for Cheating by Personation Using Computer Resource</div>
+              <div class="ls-provision">Information Technology Act, 2000 — Section 66D</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Whoever, by means of any communication device or computer resource cheats by personating, shall be punished with imprisonment of either description for a term which may extend to three years and shall also be liable to fine which may extend to one lakh rupees.
+            <br><br>
+            <strong>Why it matters for this project:</strong> The "digital arrest" scam described in our research — where fraudsters impersonated CBI officers, TRAI officials, or bank representatives over video calls and phone — is a direct violation of Section 66D. It is also applicable when scammers create fake customer-care profiles, impersonate bank helplines on social media, or use spoofed caller IDs to appear as official institutions.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Imprisonment up to 3 years</span>
+            <span class="ls-meta-item"><i class="ti ti-cash"></i> Fine up to Rs. 1,00,000</span>
+            <span class="ls-meta-item"><i class="ti ti-user-x"></i> Covers fake official calls &amp; digital arrest scams</span>
+          </div>
+        </div>
+
+        <!-- Section 67 -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 67</span>
+            <div>
+              <div class="ls-heading">Punishment for Publishing or Transmitting Obscene Material in Electronic Form</div>
+              <div class="ls-provision">Information Technology Act, 2000 — Section 67</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Whoever publishes or transmits or causes to be published or transmitted in the electronic form, any material which is lascivious or appeals to the prurient interest or if its effect is such as to tend to deprave and corrupt persons who are likely, having regard to all relevant circumstances, to read, see or hear the matter contained or embodied in it, shall be punished with imprisonment of either description for a term which may extend to three years and with fine which may extend to five lakh rupees on first conviction.
+            <br><br>
+            On conviction of a second or subsequent offence, imprisonment may extend to five years and fine up to ten lakh rupees.
+            <br><br>
+            <strong>Why it matters for this project:</strong> This section directly applies to the obscene and sexually abusive content posted against Renu Desai. It also applies to the harassment Shanaya Khan faced — where the comments were sexually explicit and targeted at a 14-year-old. Section 67 was one of the provisions used by Cyberabad Police when formally registering the case.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Up to 3 years (1st offence), up to 5 years (repeat)</span>
+            <span class="ls-meta-item"><i class="ti ti-cash"></i> Fine up to Rs. 5 lakh / Rs. 10 lakh</span>
+            <span class="ls-meta-item"><i class="ti ti-file-text"></i> Applied in Renu Desai case, 2025</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 2: IT AMENDMENT ACT 2008 -->
+<section class="section section-alt" id="it-amendment">
+  <div class="container">
+    <div class="section-label fade-in">Act 02 of 04</div>
+    <h2 class="section-title fade-in">Information Technology Amendment Act, 2008</h2>
+    <p class="section-intro fade-in">Passed on 23 December 2008, this amendment significantly expanded the IT Act to address emerging cyber threats including data theft, identity fraud, and platform liability. It introduced several new sections — most critically Section 43A and Section 66C through 66F.</p>
+
+    <div class="fade-in">
+      <div class="act-header">
+        <div>
+          <div class="act-num">IT Amendment Act · 2008 &nbsp;|&nbsp; Parliament of India</div>
+          <div class="act-full-name">Information Technology (Amendment) Act, 2008</div>
+          <div class="act-year">Enacted 5 February 2009 &nbsp;·&nbsp; Amends IT Act 2000 &nbsp;·&nbsp; Introduced 22 new sections</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <span class="tag tag-yes" style="display:inline-block">In Force</span>
+        </div>
+      </div>
+      <div class="act-body">
+
+        <!-- Section 43A -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 43A</span>
+            <div>
+              <div class="ls-heading">Compensation for Failure to Protect Sensitive Personal Data or Information</div>
+              <div class="ls-provision">IT Amendment Act, 2008 — Section 43A</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Where a body corporate, possessing, dealing or handling any sensitive personal data or information in a computer resource which it owns, controls or operates, is negligent in implementing and maintaining reasonable security practices and procedures and thereby causes wrongful loss or wrongful gain to any person, such body corporate shall be liable to pay damages by way of compensation not exceeding five crore rupees to the person so affected.
+            <br><br>
+            <strong>Why it matters for this project:</strong> Banks, UPI platforms (NPCI, PhonePe, Google Pay), and social media platforms all handle sensitive financial and personal data. If their security negligence enables fraud or harassment — for example, failing to implement two-factor authentication, or allowing anonymous accounts to mass-report a user — they can be held liable under Section 43A. This provision creates the legal basis for compelling platforms to invest in proactive safety infrastructure rather than treating it as optional.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-cash"></i> Compensation up to Rs. 5 crore</span>
+            <span class="ls-meta-item"><i class="ti ti-building"></i> Applies to corporates / platforms</span>
+            <span class="ls-meta-item"><i class="ti ti-database"></i> Covers data negligence enabling fraud</span>
+          </div>
+        </div>
+
+        <!-- Section 66E -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 66E</span>
+            <div>
+              <div class="ls-heading">Punishment for Violation of Privacy</div>
+              <div class="ls-provision">IT Amendment Act, 2008 — Section 66E</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Whoever intentionally or knowingly captures, publishes or transmits the image of a private area of any person without his or her consent, under circumstances violating the privacy of that person, shall be punished with imprisonment which may extend to three years or with fine not exceeding two lakh rupees, or with both.
+            <br><br>
+            <strong>Why it matters for this project:</strong> This section is directly applicable to image-based sexual abuse (IBSA) — the creation and sharing of intimate images without consent. It is also relevant in cases where screenshots of private conversations are shared publicly to defame or harass someone, and in the doxxing of victims where private photographs are circulated.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Imprisonment up to 3 years</span>
+            <span class="ls-meta-item"><i class="ti ti-cash"></i> Fine up to Rs. 2 lakh</span>
+            <span class="ls-meta-item"><i class="ti ti-camera-off"></i> Covers non-consensual image sharing</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 3: IPC -->
+<section class="section" id="ipc">
+  <div class="container">
+    <div class="section-label fade-in">Act 03 of 04</div>
+    <h2 class="section-title fade-in">Indian Penal Code (IPC)</h2>
+    <p class="section-intro fade-in">The Indian Penal Code, enacted in 1860, predates the internet — but several of its provisions are regularly applied to online offences because the underlying acts of harassment, intimidation, defamation, and abuse remain criminalised regardless of the medium through which they occur.</p>
+
+    <div class="fade-in">
+      <div class="act-header">
+        <div>
+          <div class="act-num">IPC · 1860 &nbsp;|&nbsp; Parliament of India</div>
+          <div class="act-full-name">Indian Penal Code, 1860</div>
+          <div class="act-year">Enacted 1860 &nbsp;·&nbsp; Amended multiple times &nbsp;·&nbsp; Being replaced by Bharatiya Nyaya Sanhita (BNS) 2023</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <span class="tag tag-warn" style="display:inline-block">Being replaced</span>
+        </div>
+      </div>
+      <div class="act-body">
+
+        <!-- Section 354A -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 354A</span>
+            <div>
+              <div class="ls-heading">Sexual Harassment and Punishment for Sexual Harassment</div>
+              <div class="ls-provision">Indian Penal Code — Section 354A (inserted by Criminal Law Amendment Act, 2013)</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            A man committing any of the following acts shall be guilty of the offence of sexual harassment —
+            <br><br>
+            (i) physical contact and advances involving unwelcome and explicit sexual overtures; or (ii) a demand or request for sexual favours; or (iii) showing pornography against the will of a woman; or (iv) making sexually coloured remarks, shall be guilty of the offence of sexual harassment.
+            <br><br>
+            <strong>Punishment:</strong> The offences under clauses (i), (ii) and (iii) shall be punishable with rigorous imprisonment for a term which may extend to three years, or with fine, or with both. The offence under clause (iv) — making sexually coloured remarks — shall be punishable with imprisonment of either description for a term which may extend to one year, or with fine, or with both.
+            <br><br>
+            <strong>Why it matters for this project:</strong> Section 354A is directly applicable to the sexually abusive language directed at Renu Desai and the sexualised comments directed at Shanaya Khan. The section was specifically inserted following the 2012 Nirbhaya case to explicitly criminalise sexual harassment in all its forms — including verbal and written harassment through online platforms.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Up to 3 years (clauses i–iii), up to 1 year (clause iv)</span>
+            <span class="ls-meta-item"><i class="ti ti-file-text"></i> Applied alongside IT Act in Renu Desai case</span>
+          </div>
+        </div>
+
+        <!-- Section 354D -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 354D</span>
+            <div>
+              <div class="ls-heading">Stalking</div>
+              <div class="ls-provision">Indian Penal Code — Section 354D (inserted by Criminal Law Amendment Act, 2013)</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Any man who — (i) follows a woman and contacts, or attempts to contact such woman to foster personal interaction repeatedly despite a clear indication of disinterest by such woman; or (ii) monitors the use by a woman of the internet, email or any other form of electronic communication, commits the offence of stalking.
+            <br><br>
+            <strong>Punishment:</strong> On first conviction, imprisonment for a term which may extend to three years and shall also be liable to fine. On a second or subsequent conviction, imprisonment for a term which may extend to five years and shall also be liable to fine.
+            <br><br>
+            <strong>Why it matters for this project:</strong> Section 354D is the most direct provision against cyberstalking. It explicitly includes monitoring a woman's internet and email use, meaning any man who tracks a victim's social media activity, checks-in obsessively on their location, or monitors their online posts against their will is committing a cognisable offence. This is the legal basis for protecting victims like Shanaya Khan from continued contact after she blocked the harassers.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Up to 3 years (1st offence), up to 5 years (repeat)</span>
+            <span class="ls-meta-item"><i class="ti ti-device-laptop"></i> Explicitly covers cyberstalking and email monitoring</span>
+          </div>
+        </div>
+
+        <!-- Section 499 -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 499</span>
+            <div>
+              <div class="ls-heading">Defamation</div>
+              <div class="ls-provision">Indian Penal Code — Section 499</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Whoever, by words either spoken or intended to be read, or by signs or by visible representations, makes or publishes any imputation concerning any person intending to harm, or knowing or having reason to believe that such imputation will harm, the reputation of such person, is said, except in the cases hereinafter excepted, to defame that person.
+            <br><br>
+            <strong>Punishment:</strong> Under Section 500 IPC — simple imprisonment for a term which may extend to two years, or with fine, or with both.
+            <br><br>
+            <strong>Why it matters for this project:</strong> The deliberate spread of false propaganda against Renu Desai — including fabricated claims about her personal life and professional conduct — constitutes defamation under Section 499. Online defamation through social media posts, fake screenshots, and morphed images is covered under this section read with the IT Act.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Imprisonment up to 2 years (under Section 500)</span>
+            <span class="ls-meta-item"><i class="ti ti-message-x"></i> Covers false propaganda, fake screenshots</span>
+          </div>
+        </div>
+
+        <!-- Section 509 -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag active">Section 509</span>
+            <div>
+              <div class="ls-heading">Word, Gesture or Act Intended to Insult the Modesty of a Woman</div>
+              <div class="ls-provision">Indian Penal Code — Section 509</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Whoever, intending to insult the modesty of any woman, utters any word, makes any sound or gesture, or exhibits any object, intending that such word or sound shall be heard, or that such gesture or object shall be seen, by such woman, or intrudes upon the privacy of such woman, shall be punished with simple imprisonment for a term which may extend to three years, and also with fine.
+            <br><br>
+            <strong>Why it matters for this project:</strong> Section 509 is one of the oldest but still actively used provisions against gendered online abuse. In the Renu Desai case, the obscene and vulgar language used in posts specifically targeting her as a woman falls under this section. The Cyberabad Police applied it alongside Section 67 of the IT Act to provide a more comprehensive legal basis for arrest and prosecution.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-jail"></i> Simple imprisonment up to 3 years</span>
+            <span class="ls-meta-item"><i class="ti ti-file-text"></i> Applied in Renu Desai case alongside IT Act Section 67</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="quote-block fade-in" style="margin-top:2rem">
+      <div class="quote-text">"The IPC provisions, while pre-digital, are not obsolete. Courts have consistently held that the medium of a crime does not change its character — harassment through a smartphone is still harassment under Section 354A."</div>
+      <div class="quote-attr">— General principle of Indian cyber law jurisprudence</div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 4: DPDP ACT 2023 -->
+<section class="section section-alt" id="dpdp">
+  <div class="container">
+    <div class="section-label fade-in">Act 04 of 04</div>
+    <h2 class="section-title fade-in">Digital Personal Data Protection Act, 2023</h2>
+    <p class="section-intro fade-in">India's first dedicated personal data protection law, passed on 11 August 2023. The DPDP Act is foundational for any design solution that processes victim data — including the cross-bank freeze system proposed in our project. Its provisions govern how data may be collected, used, shared, and deleted.</p>
+
+    <div class="fade-in">
+      <div class="act-header">
+        <div>
+          <div class="act-num">DPDP Act · 2023 &nbsp;|&nbsp; Parliament of India</div>
+          <div class="act-full-name">Digital Personal Data Protection Act, 2023</div>
+          <div class="act-year">Enacted 11 August 2023 &nbsp;·&nbsp; Rules under consultation &nbsp;·&nbsp; 44 Sections</div>
+        </div>
+        <div style="margin-left:auto;text-align:right">
+          <span class="tag tag-info" style="display:inline-block;background:var(--blue-light);color:var(--blue)">Partially notified</span>
+        </div>
+      </div>
+      <div class="act-body">
+
+        <!-- Section 8 -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag info">Section 8</span>
+            <div>
+              <div class="ls-heading">General Obligations of a Data Fiduciary</div>
+              <div class="ls-provision">DPDP Act, 2023 — Section 8</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            A Data Fiduciary — any entity that determines the purpose and means of processing personal data — must ensure the completeness, accuracy, and consistency of personal data. It must implement appropriate technical and organisational measures to ensure effective observance of the provisions of this Act and the rules made thereunder.
+            <br><br>
+            Data Fiduciaries must not retain personal data beyond the period necessary for the purpose for which it was collected. They must make reasonable efforts to ensure that personal data is accurate and complete, especially if it is likely to be used to make a decision that affects the Data Principal (the individual whose data is being processed).
+            <br><br>
+            <strong>Why it matters for this project:</strong> Banks, NPCI, and the National Cybercrime Portal are all Data Fiduciaries when they process fraud reports. Under Section 8, they are legally obligated to keep victim data accurate, secure, and deleted once the case is resolved. Our TrustGuard system must be designed as a compliant Data Fiduciary — with transparent data retention policies and automatic deletion of reports after case closure.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-database"></i> Applies to all entities processing victim data</span>
+            <span class="ls-meta-item"><i class="ti ti-shield-lock"></i> Mandates technical security measures</span>
+          </div>
+        </div>
+
+        <!-- Section 9 -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag warn">Section 9</span>
+            <div>
+              <div class="ls-heading">Processing of Personal Data of Children</div>
+              <div class="ls-provision">DPDP Act, 2023 — Section 9</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            A Data Fiduciary shall, before processing any personal data of a child, obtain verifiable consent of the parent or the lawful guardian of such child. A Data Fiduciary shall not undertake processing of personal data that is likely to cause any detrimental effect on the well-being of a child. A Data Fiduciary shall not undertake tracking or behavioural monitoring of children.
+            <br><br>
+            <strong>Why it matters for this project:</strong> This section is directly relevant to the Shanaya Khan case — a 14-year-old victim. Any reporting system used by a minor must obtain parental consent for data processing. Critically, social media platforms that track, profile, and target content at minors — enabling harassment to reach them at scale — may be in violation of Section 9.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-user-check"></i> Requires parental consent for under-18 data</span>
+            <span class="ls-meta-item"><i class="ti ti-ban"></i> Prohibits behavioural tracking of children</span>
+          </div>
+        </div>
+
+        <!-- Section 11 -->
+        <div class="law-section">
+          <div class="ls-top">
+            <span class="ls-tag info">Section 11</span>
+            <div>
+              <div class="ls-heading">Consent</div>
+              <div class="ls-provision">DPDP Act, 2023 — Section 11</div>
+            </div>
+          </div>
+          <div class="ls-body">
+            Every Data Fiduciary shall give the Data Principal the option to withdraw consent at any time, with the ease of such withdrawal being comparable to the ease with which consent was given. Upon withdrawal of consent, the Data Fiduciary shall, within a reasonable time, cease to process the personal data of such Data Principal and cause its Data Processors to do the same.
+            <br><br>
+            <strong>Why it matters for this project:</strong> Victims who file a fraud report through TrustGuard or any similar system must have the ability to withdraw their data at any point — for example, if they do not wish to proceed with legal action, or if the matter is resolved out of court. The system must implement a clear, one-tap withdrawal mechanism that is no harder to use than the original consent form.
+          </div>
+          <div class="ls-meta">
+            <span class="ls-meta-item"><i class="ti ti-x"></i> Right to withdraw consent at any time</span>
+            <span class="ls-meta-item"><i class="ti ti-trash"></i> Withdrawal triggers data deletion obligation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TELANGANA PRECEDENT -->
+<section class="section" id="telangana">
+  <div class="container">
+    <div class="section-label fade-in">Enforcement Precedent</div>
+    <h2 class="section-title fade-in">The Telangana zero-tolerance model</h2>
+    <div class="two-col fade-in">
+      <div>
+        <p style="margin-bottom:1.25rem;color:var(--text-muted);line-height:1.8">The Renu Desai case in 2025 established a clear precedent in Telangana: digital forensics can pierce online anonymity, and law enforcement will act — every time. Cyberabad Cybercrime Police deployed specialised forensic tools to trace the four accounts responsible for the harassment campaign, resulting in two arrests within weeks of the formal complaint.</p>
+        <p style="margin-bottom:1.5rem;color:var(--text-muted);line-height:1.8">This is significant for design. The legal gap is not one of <em>will</em> — courts and police in Telangana have demonstrated willingness to act. The gap is one of <em>access and speed</em> — most victims do not have the platform, resources, or knowledge to navigate the complaint process that Renu Desai was able to activate.</p>
+        <div class="quote-block">
+          <div class="quote-text">"Online anonymity is no shield from the law."</div>
+          <div class="quote-attr">— Cyberabad Cybercrime Police, following the Renu Desai case, 2025</div>
+        </div>
+        <div class="timeline" style="margin-top:2rem">
+          <div class="tl-item">
+            <div class="tl-dot info">01</div>
+            <div><div class="tl-year">Early 2025</div><div class="tl-title">Harassment Campaign Begins</div><div class="tl-desc">Four coordinated accounts begin targeting Renu Desai with obscene content. Abuse intensifies whenever she comments publicly on social issues.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot active">02</div>
+            <div><div class="tl-year">March 2025</div><div class="tl-title">Formal Complaint Filed</div><div class="tl-desc">Renu Desai formally reports the four accounts to Cyberabad Cybercrime Police, providing documented evidence of the sustained campaign.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot active">03</div>
+            <div><div class="tl-year">March 2025</div><div class="tl-title">Case Registered Under IT Act and IPC</div><div class="tl-desc">Case formally registered under Section 67 of the IT Act and Sections 354A and 509 of the IPC. Digital forensic investigation initiated.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot done">04</div>
+            <div><div class="tl-year">April 2025</div><div class="tl-title">Two Suspects Arrested</div><div class="tl-desc">Forensic tools trace anonymous accounts to two individuals, who are identified, detained, and taken into custody. Search for remaining two continues.</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot done">05</div>
+            <div><div class="tl-year">Ongoing</div><div class="tl-title">Public Warning Issued</div><div class="tl-desc">Cyberabad Police publicly warn that all future cases of online harassment will be treated with zero tolerance and active forensic investigation.</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Key Lessons for Design</div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num" style="background:var(--green-light);color:var(--green)">1</div>
+            <div><div class="step-content-title">Law Enforcement Will Act When Evidence Is Presented</div><div class="step-content-desc">The Telangana precedent proves that properly documented evidence leads to prosecution. TrustGuard's Fraud-Event ID system creates exactly this kind of structured, accessible documentation.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(192,68,38,.1);color:var(--accent)">2</div>
+            <div><div class="step-content-title">Speed Remains the Critical Design Gap</div><div class="step-content-desc">Even in the most favourable enforcement environment, the process took weeks. In financial fraud, money moves in minutes. The design must compress the response window — not just make it easier to report, but trigger action in real time.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:var(--amber-light);color:var(--amber)">3</div>
+            <div><div class="step-content-title">Existing Laws Have Not Kept Pace with Technology</div><div class="step-content-desc">Section 66A being struck down left a gap. The IPC was written in 1860. Even the DPDP Act 2023 has not yet had its rules fully notified. Dedicated cyberbullying legislation with faster response timelines is still needed.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:var(--blue-light);color:var(--blue)">4</div>
+            <div><div class="step-content-title">Enforcement Is Inconsistent Across States</div><div class="step-content-desc">Telangana's zero-tolerance approach is not standard across India. The design solution must work in weak-enforcement environments too — not rely on strong-enforcement as a prerequisite.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:var(--purple-light);color:var(--purple)">5</div>
+            <div><div class="step-content-title">Victims Should Not Bear the Reporting Burden</div><div class="step-content-desc">Renu Desai had to publicly announce legal action herself to trigger a response. The burden fell on the victim — not the platform, not the police. Design must shift this burden onto the system.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col"><div class="footer-brand">Designing Against Digital Harm</div><p>EHIX Design Thinking Project · May 2026</p></div>
+      <div class="footer-col">
+        <ul class="footer-links">
+          <li><a href="empathize.html">Research &amp; Interviews</a></li>
+          <li><a href="personas.html">User Personas</a></li>
+          <li><a href="define.html">Problem Definition</a></li>
+          <li><a href="case-studies.html">Case Studies</a></li>
+          <li><a href="ideate.html">Ideation Workshop</a></li>
+          <li><a href="solution.html">Solution (Live)</a></li>
+          <li><a href="legal.html">Legal Framework</a></li>
+          <li><a href="research.html">Research Insights</a></li>
+          <li><a href="interview-analysis.html">Workshop Notes</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <p style="text-align:center;font-size:.72rem">Divyam Bafna · Manya Goyal · Rishabh Chaturvedi · Tanishka Sirohi · Rachit Ajmera · Naitik Gaur · Harshit Brar · Harshit Golani</p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CYBERSABER A2 Poster — Design Thinking Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <style>
+    :root{
+      --poster-red:#e9133b;
+      --poster-blue:#1f8ece;
+      --poster-dark:#313842;
+      --poster-ink:#16181d;
+      --poster-muted:#68707d;
+      --poster-line:#e8ebef;
+      --poster-paper:#ffffff;
+      --poster-soft:#f7f8fa;
+      --poster-shadow:0 28px 90px rgba(15,23,42,.12);
+      --poster-radius:28px;
+      --serif:'Cormorant Garamond',serif;
+      --sans:'Outfit',system-ui,sans-serif;
+      --mono:'JetBrains Mono',monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#fff 0%,#f7f8fa 48%,#fff 100%);color:var(--poster-ink);font-family:var(--sans);}
+    a{color:inherit}
+    .poster-page{padding-top:92px;overflow:hidden}
+    .poster-shell{width:min(1180px,92vw);margin:0 auto}
+    .poster-hero{position:relative;padding:5.5rem 0 3.5rem;text-align:center}
+    .poster-hero::before{content:"";position:absolute;inset:-14rem -20vw auto;height:28rem;background:radial-gradient(circle at 50% 30%,rgba(233,19,59,.16),transparent 58%);z-index:-1}
+    .poster-badge{display:inline-flex;align-items:center;gap:.55rem;background:rgba(233,19,59,.08);border:1px solid rgba(233,19,59,.22);color:var(--poster-red);padding:.55rem 1rem;border-radius:999px;font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.4rem}
+    .poster-hero h1{margin:0;font-family:var(--sans);font-size:clamp(3rem,8vw,7rem);line-height:.9;font-weight:800;letter-spacing:-.07em;color:var(--poster-red);text-transform:uppercase}
+    .poster-hero h1 span{display:block;font-family:var(--serif);font-style:italic;font-weight:700;color:var(--poster-ink);text-transform:none;letter-spacing:-.04em;font-size:.54em;margin-top:.25rem}
+    .poster-sub{max-width:760px;margin:1.35rem auto 0;color:var(--poster-muted);font-size:1.1rem;line-height:1.75}
+    .poster-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:.85rem;margin-top:2rem}
+    .poster-btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border-radius:999px;padding:.85rem 1.2rem;text-decoration:none;font-weight:700;border:1px solid var(--poster-line);background:#fff;box-shadow:0 10px 30px rgba(15,23,42,.06);transition:.2s ease}
+    .poster-btn:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(15,23,42,.11)}
+    .poster-btn.primary{background:var(--poster-red);color:#fff;border-color:var(--poster-red)}
+    .poster-overview{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.72fr);gap:1.4rem;align-items:start;margin-bottom:4rem}
+    .poster-frame{background:#fff;border:1px solid var(--poster-line);border-radius:var(--poster-radius);box-shadow:var(--poster-shadow);padding:1rem;position:relative}
+    .poster-frame::before{content:"PDF Poster Preview";position:absolute;left:2rem;top:2rem;background:#fff;border:1px solid var(--poster-line);border-radius:999px;padding:.4rem .75rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--poster-red);box-shadow:0 10px 26px rgba(15,23,42,.08)}
+    .poster-frame img{display:block;width:100%;border-radius:20px;border:1px solid #edf0f3;background:#fff}
+    .poster-side{display:grid;gap:1rem;position:sticky;top:100px}
+    .info-card{background:#fff;border:1px solid var(--poster-line);border-radius:24px;padding:1.35rem;box-shadow:0 16px 46px rgba(15,23,42,.07)}
+    .info-card h2,.info-card h3{margin:0 0 .75rem;font-size:1rem;text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);color:var(--poster-red)}
+    .info-card p{margin:.35rem 0;color:var(--poster-muted);line-height:1.65}
+    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem}
+    .metric{border-radius:18px;background:var(--poster-soft);padding:1rem;border:1px solid var(--poster-line)}
+    .metric strong{display:block;font-size:1.45rem;color:var(--poster-ink);line-height:1}
+    .metric span{display:block;margin-top:.45rem;font-size:.78rem;color:var(--poster-muted);line-height:1.3}
+    .toc{display:grid;gap:.6rem;margin-top:.8rem}
+    .toc a{display:flex;align-items:center;gap:.7rem;text-decoration:none;padding:.72rem .8rem;border-radius:15px;background:var(--poster-soft);border:1px solid transparent;color:var(--poster-muted);transition:.18s ease}
+    .toc a:hover{border-color:rgba(233,19,59,.2);color:var(--poster-red);background:#fff}
+    .toc b{display:inline-grid;place-items:center;min-width:1.65rem;height:1.65rem;border-radius:10px;background:var(--poster-red);color:#fff;font-size:.75rem}
+    .section-title-block{margin:1rem 0 1.5rem;text-align:center}
+    .section-kicker{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;color:var(--poster-red);font-weight:700}
+    .section-title-block h2{font-size:clamp(2rem,4vw,3.6rem);letter-spacing:-.05em;margin:.45rem 0 0;line-height:.95}
+    .poster-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:4rem}
+    .panel-card{background:#fff;border:1px solid var(--poster-line);border-radius:24px;overflow:hidden;box-shadow:0 16px 48px rgba(15,23,42,.07)}
+    .panel-head{display:flex;align-items:center;gap:.75rem;background:var(--poster-dark);color:#fff;padding:.85rem 1rem;font-family:var(--mono);font-size:.75rem;text-transform:uppercase;letter-spacing:.08em}
+    .panel-no{display:grid;place-items:center;width:1.9rem;height:1.9rem;border-radius:9px;background:var(--poster-red);color:#fff;font-weight:800}
+    .panel-body{padding:1.15rem;line-height:1.55;color:var(--poster-muted);font-size:.96rem}
+    .panel-body h3{margin:.2rem 0 .35rem;color:var(--poster-ink);font-size:1.05rem}
+    .panel-body ul{padding-left:1.05rem;margin:.4rem 0 1rem}
+    .panel-body li{margin:.28rem 0}
+    .accent-blue .panel-no{background:var(--poster-blue)}
+    .accent-orange .panel-no{background:#f7a313}
+    .accent-purple .panel-no{background:#8854d0}
+    .accent-green .panel-no{background:#16a085}
+    .wide{grid-column:span 2}
+    .pdf-embed-wrap{background:#fff;border:1px solid var(--poster-line);border-radius:var(--poster-radius);padding:1rem;box-shadow:var(--poster-shadow);margin:1rem 0 4rem}
+    .pdf-embed-wrap object,.pdf-embed-wrap iframe{display:block;width:100%;height:min(82vh,900px);border:0;border-radius:20px;background:#f1f3f5}
+    .transcript{background:#fff;border:1px solid var(--poster-line);border-radius:var(--poster-radius);box-shadow:var(--poster-shadow);padding:clamp(1.2rem,3vw,2.2rem);margin-bottom:4rem}
+    .transcript h3{margin:1.5rem 0 .5rem;font-size:1.2rem;color:var(--poster-ink)}
+    .transcript h3:first-child{margin-top:0}
+    .transcript p,.transcript li{color:var(--poster-muted);line-height:1.7}
+    .transcript ul{margin:.35rem 0 1rem;padding-left:1.2rem}
+    .idea-list{display:grid;gap:.75rem;margin-top:.8rem}
+    .idea-item{padding:1rem;border:1px solid var(--poster-line);border-radius:18px;background:var(--poster-soft)}
+    .idea-item strong{display:block;color:var(--poster-ink);margin-bottom:.3rem}
+    .poster-footer-note{text-align:center;color:var(--poster-muted);font-size:.9rem;padding-bottom:3rem}
+    @media(max-width:980px){.poster-overview{grid-template-columns:1fr}.poster-side{position:static}.poster-grid{grid-template-columns:1fr 1fr}.wide{grid-column:span 1}}
+    @media(max-width:640px){.poster-page{padding-top:72px}.poster-hero{padding-top:3rem}.poster-grid{grid-template-columns:1fr}.poster-actions{flex-direction:column}.poster-btn{width:100%}.metric-grid{grid-template-columns:1fr}.pdf-embed-wrap object,.pdf-embed-wrap iframe{height:620px}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a class="nav-logo" href="../index.html"><span class="logo-accent">DT</span> CYBERSABER</a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="empathize.html">Empathize</a></li>
+        <li><a href="personas.html">Personas</a></li>
+        <li><a href="define.html">Define</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="ideate.html">Ideate</a></li>
+        <li><a href="solution.html">Solution</a></li>
+        <li><a href="legal.html">Legal</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="interview-analysis.html">Workshop Notes</a></li>
+        <li><a href="poster.html" class="active">A2 Poster</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle"><i class="ti ti-menu-2"></i></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="../index.html">Home</a>
+      <a href="empathize.html">Empathize</a>
+      <a href="personas.html">Personas</a>
+      <a href="define.html">Define</a>
+      <a href="case-studies.html">Case Studies</a>
+      <a href="ideate.html">Ideate</a>
+      <a href="solution.html">Solution</a>
+      <a href="legal.html">Legal Framework</a>
+      <a href="research.html">Research Insights</a>
+      <a href="interview-analysis.html">Workshop Notes</a>
+      <a href="poster.html" class="active">A2 Poster</a>
+    </div>
+  </nav>
+
+  <main class="poster-page">
+    <section class="poster-hero poster-shell">
+      <div class="poster-badge"><i class="ti ti-file-presentation"></i> A2 Poster Integration</div>
+      <h1>CYBERSABER <span>Design Thinking Project 2026</span></h1>
+      <p class="poster-sub">A polished website page for the final project poster, with a clean PDF viewer, a high-resolution image fallback, and a readable transcript of every poster section.</p>
+      <div class="poster-actions">
+        <a class="poster-btn primary" href="../assets/poster/Workday-Warriors-A2-Poster.pdf" target="_blank" rel="noopener"><i class="ti ti-file-type-pdf"></i> Open PDF</a>
+        <a class="poster-btn" href="#transcript"><i class="ti ti-text-recognition"></i> Read Transcript</a>
+        <a class="poster-btn" href="#poster-pdf"><i class="ti ti-device-desktop"></i> View Embedded Poster</a>
+      </div>
+    </section>
+
+    <section class="poster-overview poster-shell">
+      <div class="poster-frame">
+        <img src="../assets/poster/cybersaber-poster.png" alt="CYBERSABER Design Thinking Project 2026 A2 poster preview" />
+      </div>
+      <aside class="poster-side">
+        <div class="info-card">
+          <h2>Poster Summary</h2>
+          <p><strong>Theme:</strong> cyberbullying, online fraud, reporting gaps, and recovery support in urban India.</p>
+          <p><strong>Core insight:</strong> users can identify danger, but lack a trusted, fast path to protection or recovery.</p>
+          <div class="metric-grid">
+            <div class="metric"><strong>3</strong><span>Primary personas</span></div>
+            <div class="metric"><strong>7</strong><span>HMW questions</span></div>
+            <div class="metric"><strong>108</strong><span>Ideas clustered</span></div>
+            <div class="metric"><strong>3</strong><span>Quick-win concepts</span></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <h3>Jump To</h3>
+          <div class="toc">
+            <a href="#poster-pdf"><b>1</b> Embedded PDF</a>
+            <a href="#poster-breakdown"><b>2</b> Poster Breakdown</a>
+            <a href="#transcript"><b>3</b> Full Transcript</a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="poster-shell" id="poster-pdf">
+      <div class="section-title-block">
+        <div class="section-kicker">Embedded PDF</div>
+        <h2>Paste-ready poster viewer</h2>
+      </div>
+      <div class="pdf-embed-wrap">
+        <object data="../assets/poster/Workday-Warriors-A2-Poster.pdf" type="application/pdf">
+          <iframe src="../assets/poster/Workday-Warriors-A2-Poster.pdf" title="CYBERSABER poster PDF"></iframe>
+          <img src="../assets/poster/cybersaber-poster.png" alt="CYBERSABER poster image fallback" />
+        </object>
+      </div>
+    </section>
+
+    <section class="poster-shell" id="poster-breakdown">
+      <div class="section-title-block">
+        <div class="section-kicker">Poster Breakdown</div>
+        <h2>Same information, website-ready</h2>
+      </div>
+      <div class="poster-grid">
+        <article class="panel-card accent-blue"><div class="panel-head"><span class="panel-no">1</span>User / Protagonist</div><div class="panel-body"><h3>Aryan, Awika, Reena</h3><p>Three users represent students, young adults, and homemakers dealing with scams, harassment, reporting confusion, and loss of trust.</p></div></article>
+        <article class="panel-card"><div class="panel-head"><span class="panel-no">2</span>Context & Situation</div><div class="panel-body"><h3>Urban India</h3><p>Heavy Instagram, WhatsApp, UPI, and informal social commerce usage creates frequent exposure to fraud and cyberbullying.</p></div></article>
+        <article class="panel-card accent-orange"><div class="panel-head"><span class="panel-no">3</span>Evidence Base</div><div class="panel-body"><h3>Cases + Legal Context</h3><p>Includes VBIT Telangana, Renu Desai, Shanaya Khan, UN cyberbullying data, and the Indian legal framework.</p></div></article>
+        <article class="panel-card accent-purple"><div class="panel-head"><span class="panel-no">4</span>Pain Points & Needs</div><div class="panel-body"><p>Users need clear escalation, legal awareness, emotional safety, real-time scam warnings, and reliable recovery support.</p></div></article>
+        <article class="panel-card"><div class="panel-head"><span class="panel-no">5</span>Root Causes</div><div class="panel-body"><p>The 5 Whys analysis links the problem to buried reporting, no status updates, siloed systems, weak audits, and poor enforcement incentives.</p></div></article>
+        <article class="panel-card accent-green"><div class="panel-head"><span class="panel-no">6</span>How Might We</div><div class="panel-body"><p>Seven shortlisted HMW questions focus on instant freezes, one-tap SOS, live status, local scam warnings, elderly-safe transactions, retraction rights, and SOC-like helplines.</p></div></article>
+        <article class="panel-card wide accent-orange"><div class="panel-head"><span class="panel-no">7</span>Top Ideas</div><div class="panel-body"><p>The strongest quick wins are National Fraud Freeze RPC, One-tap SOS Lock-Screen Trigger, and Fraud-Event ID replacing FIR paperwork.</p></div></article>
+        <article class="panel-card accent-purple"><div class="panel-head"><span class="panel-no">8</span>Prototype / Flow</div><div class="panel-body"><p>The prototype is TrustGuard: a secure reporting platform that generates a digital Fraud-Event ID and supports bank/authority sharing.</p></div></article>
+      </div>
+    </section>
+
+    <section class="poster-shell" id="transcript">
+      <div class="section-title-block">
+        <div class="section-kicker">Clean Transcript</div>
+        <h2>Readable poster text</h2>
+      </div>
+      <div class="transcript">
+        <h3>Title</h3>
+        <p><strong>CYBERSABER</strong><br>Design Thinking Project 2026</p>
+
+        <h3>1. User / Protagonist</h3>
+        <p><strong>Aryan Mehta</strong> — 20, Engineering/Law undergraduate, urban India, high tech literacy.</p>
+        <p><em>“I'm careful online — but when something happens, I have no idea where to go.”</em></p>
+        <ul><li>Navigate platforms safely.</li><li>Protect family from scams.</li><li>Know how to report cybercrime.</li></ul>
+        <p><strong>Awika Singh</strong> — 18-22, student, urban India, high tech literacy.</p>
+        <p><em>“I just deleted the post — I didn't know there was something I could report.”</em></p>
+        <ul><li>Express freely without harassment.</li><li>Shop safely on social commerce.</li><li>Understand cyberbullying and legal options.</li></ul>
+        <p><strong>Reena Sharma</strong> — 48-58, homemaker, urban India, medium tech literacy.</p>
+        <p><em>“We filed a complaint, but the money was gone. I avoid online transactions now.”</em></p>
+        <ul><li>Complete digital transactions safely.</li><li>Recognize scam red flags independently.</li><li>Not rely on children for every step.</li></ul>
+
+        <h3>2. Context & Situation</h3>
+        <p><strong>Setting:</strong> Urban India; students, young adults, and homemakers; heavy daily use of Instagram, WhatsApp, and UPI; informal social commerce with no payment safety net.</p>
+        <p><strong>Triggers:</strong> Fake bank or authority calls, advance-payment Instagram scams, phishing links, body-shaming comments, fake profiles, and “digital arrest” manipulations targeting elderly users.</p>
+        <p><strong>Response Gap:</strong> Most victims deleted or ignored instead of reporting; they did not know how to file a complaint; reporting felt too complex or futile; police rarely acted on small cases.</p>
+        <p><strong>Awareness Gap:</strong> Schools teach theory, not practice; the cybercrime portal is unknown to most; elderly and rural users are highly exposed; families rely on younger members for decisions.</p>
+
+        <h3>3. Evidence Base</h3>
+        <p><strong>VBIT Case, Telangana, 2022-23:</strong> Women engineering students were harassed via WhatsApp and Instagram through morphed photos and threats to leak explicit content. Four accused were arrested within days of the FIR.</p>
+        <p><strong>Renu Desai, Hyderabad, 2025:</strong> The actress was targeted by four coordinated accounts using vulgar abuse and false propaganda. Cyberabad Cybercrime Police arrested two people under the IT Act and IPC.</p>
+        <p><strong>Shanaya Khan, Hyderabad:</strong> A 14-year-old was bullied with sexualised comments on a birthday photo. The harassment continued after the post was deleted. She needed counselling and never formally reported it.</p>
+        <p><strong>UN Report 2025:</strong> More than 30,000 children surveyed. 66% said cyberbullying is rising, 82% do not report due to fear of stigma, AI deepfakes create new threat vectors, and reputational harm spreads in seconds.</p>
+        <p><strong>Legal Framework, India:</strong> IT Act Section 67 covers obscene content and Section 67A covers explicit material. IPC/BNS provisions include Section 499 for defamation and Section 354D for cyberstalking. BNS 2023 replaced IPC from July 2024.</p>
+
+        <h3>4. Pain Points & Needs</h3>
+        <ul>
+          <li><strong>Aryan:</strong> No escalation path; knows red flags but not next steps. Report button is buried deep in settings with no in-context guidance. No confirmation, ticket ID, or status update after reporting. Cybercrime portal and helpline awareness comes too late.</li>
+          <li><strong>Awika:</strong> Does not know body-shaming qualifies as cyberbullying or is reportable. Fears reporting will escalate instead of resolve the situation. Copes through avoidance and self-censorship.</li>
+          <li><strong>Reena:</strong> Lacks a simple, trusted digital safety guide for 45+ users. Received no real-time vishing alert from the bank and the scam call felt official. Filed an FIR but did not recover the money, creating residual fear of digital transactions.</li>
+        </ul>
+
+        <h3>5. Root Causes — 5 Whys</h3>
+        <p><strong>Core:</strong> No trusted path to protection or recovery.</p>
+        <ul>
+          <li><strong>L1 Main Branches:</strong> Reporting is buried, no status is visible, systems are siloed, and users are excluded.</li>
+          <li><strong>L2 Immediate Causes:</strong> Report button is three or more menus deep, there is no ticket ID, and no shared fraud signal.</li>
+          <li><strong>L3 Design Decisions:</strong> Safety is not on the roadmap, regional content is missing, and there is no onboarding for 45+ users.</li>
+          <li><strong>L4 Systemic Gaps:</strong> Audits are shallow, RBI fines are too low, and FIRs are not linked to recovery.</li>
+          <li><strong>L5 Root Incentives:</strong> Penalties are not applied, there is no enforcement SLA, and cyber insurance is missing.</li>
+        </ul>
+
+        <h3>6. How Might We Questions</h3>
+        <ul>
+          <li>HMW create a single API call that freezes funds across all linked banks within 60 seconds of a fraud report?</li>
+          <li>HMW give every user a one-tap SOS from the lock screen that works even in panic or low-literacy situations?</li>
+          <li>HMW make fraud recovery status live and publicly visible so victims stop calling and banks stay accountable?</li>
+          <li>HMW warn users about local scam threats in their dialect before they are targeted?</li>
+          <li>HMW make high-value transactions safer for elderly and low-literacy users through voice and traffic-light risk signals?</li>
+          <li>HMW give every user a legal 60-second right to retract a payment they were coerced into making?</li>
+          <li>HMW restructure fraud helplines like a SOC with playbooks, peer counsellors, and cross-bank case tracking?</li>
+        </ul>
+
+        <h3>7. Top Ideas</h3>
+        <div class="idea-list">
+          <div class="idea-item"><strong>1. National Fraud Freeze RPC</strong>An NPCI-mandated open API where one authenticated victim call fans out freeze instructions to every linked PSP simultaneously, with a 60-second SLA and an idempotent fraud-event ID replacing FIR paperwork below a defined threshold.</div>
+          <div class="idea-item"><strong>2. One-tap SOS Lock-Screen Trigger</strong>A freeze trigger from lock screen, Quick Settings, and a short-code voice line with no login needed. A Family Vault lets one or two verified contacts act for the victim through attested digital power of attorney.</div>
+          <div class="idea-item"><strong>3. Fraud-Event ID Replaces FIR Paperwork</strong>A digitally generated, shareable fraud-event ID issued at report time, recognized across banks, the cybercrime portal, and telcos to reduce victim burden from days to seconds.</div>
+        </div>
+
+        <h3>8. Prototype / Flow Diagram</h3>
+        <p>The proposed prototype is a digital Fraud-Event ID system that instantly generates a unique fraud case ID as soon as a victim reports cyber fraud through the app or portal. Instead of visiting a police station and filing paperwork manually, the victim gets a shareable digital ID within seconds.</p>
+        <ul>
+          <li>TrustGuard secure reporting platform.</li>
+          <li>256-bit encrypted security system.</li>
+          <li>Incident/Fraud reporting form.</li>
+          <li>Instant Fraud-Event ID generation.</li>
+          <li>Full legal name input field and contact override field.</li>
+          <li>Incident date calendar picker and fraud category dropdown.</li>
+          <li>Brief fraud description text area.</li>
+          <li>Secure digital complaint submission.</li>
+          <li>Trackable fraud case generation.</li>
+          <li>Authority and bank sharing support.</li>
+          <li>Manual paperwork bypass system.</li>
+          <li>Simple user-friendly interface.</li>
+          <li>Centralized fraud reporting dashboard.</li>
+        </ul>
+
+        <h3>Group Details</h3>
+        <p>B.Tech 2nd Year — SE24UARI130, SE24UCSE234, SE24UCSE226, SE24UCSE214, SE24UCSE235, SE24UMCS105, SE24UECM026, SE24UECM056.</p>
+      </div>
+    </section>
+    <p class="poster-footer-note">Add this file as <strong>pages/poster.html</strong> and keep the poster PDF/image inside <strong>assets/poster/</strong>.</p>
+  </main>
+  <script src="../js/main.js"></script>
+  <script>
+    const navToggle=document.getElementById('navToggle');
+    const mobileMenu=document.getElementById('mobileMenu');
+    if(navToggle&&mobileMenu){navToggle.addEventListener('click',()=>mobileMenu.classList.toggle('active'));}
+  </script>
+</body>
+</html>

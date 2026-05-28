@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Analysis — Workshop Notes · DT Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+#readingBar { position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0; z-index:9999; }
+
+/* ===== CHART PAPER OUTER SECTION ===== */
+.chartpaper-section {
+  background: #F0EFDF;
+  background-image:
+    linear-gradient(rgba(80,120,200,.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(80,120,200,.1) 1px, transparent 1px);
+  background-size: 28px 28px;
+  padding: 3rem 0 4rem;
+}
+
+/* ===== THE PAPER SHEET ===== */
+.cp-sheet {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  background: #FFFEF7;
+  background-image:
+    linear-gradient(rgba(100,149,237,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,149,237,.10) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: 64px 0;
+  border: 1px solid #C6C69A;
+  border-radius: 10px;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.07),
+    4px 6px 0 rgba(0,0,0,.06),
+    8px 10px 0 rgba(0,0,0,.03);
+  overflow: hidden;
+}
+
+/* ── Binding column (holes + red line) ── */
+.cp-binding {
+  width: 64px;
+  background: #F8F7EC;
+  border-right: 2.5px solid rgba(205,50,50,.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 2.5rem 0;
+}
+.cp-hole {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: #F0EFDF;
+  border: 1.5px solid #B5B49A;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.15), 0 1px 0 rgba(255,255,255,.6);
+  flex-shrink: 0;
+}
+
+/* ── Main writing area ── */
+.cp-content {
+  padding: 2.25rem 2.25rem 2.75rem;
+  min-width: 0;
+}
+
+/* ── Top label bar ── */
+.cp-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 2px solid rgba(0,0,0,.15);
+}
+.cp-workshop-tag {
+  font-family: 'Caveat', cursive; font-size: 1.75rem; font-weight: 700;
+  color: #1A4A8A; letter-spacing: .01em; line-height: 1.15;
+}
+.cp-team-tag {
+  font-family: 'Caveat', cursive; font-size: 1rem; color: #555;
+  text-align: right; line-height: 1.45;
+  min-width: 240px;
+}
+.cp-team-tag strong { color: #333; font-weight: 700; }
+
+/* ── Clean 2×2 transcript grid ── */
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.cp-quadrant {
+  min-width: 0;
+  background: rgba(255,255,255,.58);
+  border: 1.5px solid rgba(0,0,0,.16);
+  border-radius: 12px;
+  padding: 1.35rem 1.35rem 1.45rem;
+  box-shadow: 0 1px 0 rgba(255,255,255,.8), inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.cp-quadrant:hover { box-shadow: 0 10px 24px rgba(0,0,0,.06); }
+
+/* ── Quadrant titles ── */
+.cp-qtitle {
+  font-family: 'Caveat', cursive; font-size: 1.45rem; font-weight: 700;
+  color: #1A4A8A; margin-bottom: 1.05rem; padding-bottom: .45rem;
+  border-bottom: 2px solid #1A4A8A;
+  display: flex; align-items: center; gap: .55rem;
+  line-height: 1.15;
+}
+.cp-qtitle.red    { color: #B91C1C; border-color: #B91C1C; }
+.cp-qtitle.green  { color: #15803D; border-color: #15803D; }
+.cp-qtitle.purple { color: #6B21A8; border-color: #6B21A8; }
+.cp-qtitle.orange { color: #B45309; border-color: #B45309; }
+
+/* ── Bullet items ── */
+.cp-item {
+  display: grid;
+  grid-template-columns: 1.35rem minmax(0, 1fr);
+  align-items: start;
+  column-gap: .55rem;
+  margin-bottom: .62rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.12rem;
+  line-height: 1.42;
+  color: #222;
+  overflow-wrap: anywhere;
+}
+.cp-item::before {
+  content: '→'; color: #B91C1C;
+  font-size: 1rem; line-height: 1.45;
+  text-align: center;
+  transform: translateY(.02rem);
+}
+.cp-item.numbered::before { content: attr(data-n)'.'; color: #1A4A8A; font-weight: 700; min-width: 1.35rem; }
+.cp-item.check::before    { content: '✓'; color: #15803D; font-weight: 700; }
+.cp-item.star::before     { content: '★'; color: #B45309; font-size: .85rem; line-height: 1.8; }
+
+.cp-sub {
+  font-family: 'Caveat', cursive; font-size: 1.18rem; font-weight: 700;
+  color: #1A1A1A; margin: 1.15rem 0 .65rem;
+  padding: .18rem .55rem .22rem;
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  background: rgba(255,245,170,.35);
+  border-radius: 8px 8px 3px 3px;
+  width: fit-content;
+}
+.cp-sub:first-of-type { margin-top: 0; }
+
+/* Highlight emphasis */
+.cp-underline {
+  background-image: linear-gradient(transparent 72%, rgba(255,220,0,.6) 72%);
+  background-repeat: no-repeat; background-size: 100% 100%;
+  padding-bottom: .08em;
+}
+
+/* ===== PHOTO SECTION ===== */
+.photo-section {
+  background: #1A1410; padding: 4rem 0;
+  text-align: center;
+}
+.photo-frame {
+  position: relative; display: inline-block;
+  max-width: 680px; width: 100%;
+}
+.photo-frame img {
+  width: 100%; border-radius: 4px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.08);
+}
+.photo-frame.rotate-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+.photo-frame.rotate-left img {
+  transform: rotate(-90deg);
+  transform-origin: center center;
+}
+.photo-caption {
+  margin-top: 1.25rem; font-family: var(--mono); font-size: .72rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(250,250,247,.4);
+}
+.photo-tape {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 24px;
+  background: rgba(255,230,100,.55);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.3);
+}
+
+/* ===== KEY INSIGHTS (clean section) ===== */
+.insight-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  border-left: 4px solid var(--accent);
+  transition: box-shadow .2s;
+}
+.insight-card:hover { box-shadow: var(--shadow-md); }
+.insight-label {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: .5rem;
+}
+.insight-text { font-size: .88rem; color: var(--text-muted); line-height: 1.65; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .cp-sheet { grid-template-columns: 44px minmax(0, 1fr); background-position: 44px 0; }
+  .cp-binding { width: 44px; }
+  .cp-hole    { width: 18px; height: 18px; }
+  .cp-content { padding: 1.45rem 1rem 1.6rem 1.1rem; }
+  .cp-grid    { grid-template-columns: 1fr; gap: 1rem; }
+  .cp-quadrant { padding: 1.15rem 1rem 1.25rem; }
+  .cp-top-bar { flex-direction: column; gap: .75rem; }
+  .cp-team-tag { text-align: left; min-width: 0; }
+  .cp-workshop-tag { font-size: 1.45rem; }
+  .cp-item { font-size: 1.03rem; grid-template-columns: 1.2rem minmax(0, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .cp-content { padding: 2.5rem 2.75rem 3rem; }
+  .cp-grid { gap: 1.5rem; }
+}
+
+
+/* ===== FINAL FIX: clean readable transcript layout ===== */
+.chartpaper-section .container {
+  max-width: 1240px;
+}
+.cp-sheet {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  overflow: visible;
+}
+.cp-content {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.cp-grid {
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(360px, 1fr));
+  gap: 1.35rem;
+  align-items: start;
+}
+.cp-quadrant {
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 1.45rem 1.5rem 1.55rem;
+}
+.cp-item {
+  display: flex !important;
+  align-items: flex-start;
+  gap: .65rem;
+  margin-bottom: .72rem;
+  font-size: 1.08rem;
+  line-height: 1.55;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
+  white-space: normal !important;
+}
+.cp-item::before {
+  flex: 0 0 1.35rem;
+  min-width: 1.35rem;
+  text-align: center;
+  line-height: 1.55;
+}
+.cp-item.numbered::before {
+  flex-basis: 1.7rem;
+  min-width: 1.7rem;
+}
+.cp-item span,
+.cp-underline {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.cp-qtitle {
+  flex-wrap: nowrap;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.cp-sub {
+  margin-top: 1.25rem;
+  margin-bottom: .75rem;
+}
+@media (max-width: 980px) {
+  .cp-grid { grid-template-columns: 1fr; }
+  .cp-top-bar { flex-direction: column; }
+  .cp-team-tag { text-align: left; min-width: 0; }
+}
+@media (max-width: 768px) {
+  .cp-sheet { grid-template-columns: 44px minmax(0, 1fr); }
+  .cp-content { padding: 1.45rem 1rem 1.6rem 1.1rem; }
+  .cp-quadrant { padding: 1.15rem 1rem 1.25rem; }
+  .cp-item { font-size: 1rem; line-height: 1.5; }
+}
+
+</style>
+</head>
+<body>
+<div id="readingBar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a class="nav-logo" href="../index.html"><span class="logo-accent">DT</span> Digital Harm</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="empathize.html">Empathize</a></li>
+      <li><a href="personas.html">Personas</a></li>
+      <li><a href="define.html">Define</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="ideate.html">Ideate</a></li>
+      <li><a href="solution.html">Solution</a></li>
+      <li><a href="legal.html">Legal</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="interview-analysis.html" class="active">Workshop Notes</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><i class="ti ti-menu-2"></i></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html">Home</a>
+    <a href="empathize.html">Empathize</a>
+    <a href="personas.html">Personas</a>
+    <a href="define.html">Define</a>
+    <a href="case-studies.html">Case Studies</a>
+    <a href="ideate.html">Ideate</a>
+    <a href="solution.html">Solution</a>
+    <a href="legal.html">Legal</a>
+    <a href="research.html">Research</a>
+    <a href="interview-analysis.html" class="active">Workshop Notes</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <a href="../index.html" class="back-btn"><i class="ti ti-arrow-left"></i> Back to Home</a>
+    <div class="page-header-eyebrow">Workshop · Interview Analysis</div>
+    <h1>Interview Analysis & Workshop Notes</h1>
+    <p class="page-header-desc">The original handwritten analysis from our team workshop — transcribing patterns, problems, personas, and solutions discovered across all 10 interviews. Captured on chart paper during a structured team synthesis session.</p>
+  </div>
+</div>
+
+<!-- ORIGINAL PHOTO -->
+<div class="photo-section">
+  <div class="container">
+    <div class="section-label fade-in" style="justify-content:center;color:rgba(255,211,180,.65)">Original Artefact</div>
+    <h2 class="section-title fade-in" style="color:rgba(250,250,247,.9);text-align:center;margin-bottom:2.5rem">The Chart Paper</h2>
+    <div class="photo-frame rotate-left fade-in" style="margin:0 auto">
+      <div class="photo-tape"></div>
+      <img src="../images/interview-analysis.jpg" alt="Original handwritten interview analysis chart paper from team workshop">
+    </div>
+    <p class="photo-caption fade-in">Original team workshop · Interview synthesis session · May 2026</p>
+  </div>
+</div>
+
+<!-- DIGITAL CHART PAPER RECREATION -->
+<div class="chartpaper-section" id="digital-notes">
+  <div class="container">
+    <div style="margin-bottom:1.75rem" class="fade-in">
+      <div class="section-label">Digital Transcription</div>
+      <h2 class="section-title">Workshop notes — digitised</h2>
+      <p style="color:var(--text-muted);font-size:.95rem;max-width:620px">Every point from the original chart paper, faithfully transcribed and formatted to mirror the four-quadrant layout of the original session.</p>
+    </div>
+
+    <div class="cp-sheet fade-in">
+      <!-- BINDING COLUMN: holes + red margin line -->
+      <div class="cp-binding">
+        <div class="cp-hole"></div>
+        <div class="cp-hole"></div>
+        <div class="cp-hole"></div>
+        <div class="cp-hole"></div>
+        <div class="cp-hole"></div>
+        <div class="cp-hole"></div>
+      </div>
+
+      <!-- WRITING AREA -->
+      <div class="cp-content">
+
+        <!-- TOP BAR -->
+        <div class="cp-top-bar">
+          <div>
+            <div class="cp-workshop-tag"><i class="ti ti-chart-line" style="font-size:1.1rem;vertical-align:-2px;margin-right:.3rem"></i> Workshop · Interview Analysis</div>
+            <div style="font-family:'Caveat',cursive;font-size:.95rem;color:#888;margin-top:.25rem">Cyberbullying &amp; Online Fraud in India · May 2026</div>
+          </div>
+          <div class="cp-team-tag">
+            <strong>Team:</strong><br>
+            Divyam Bafna · Manya Goyal<br>
+            Rishabh Chaturvedi · Tanishka Sirohi<br>
+            Rachit Ajmera · Naitik Gaur<br>
+            Harshit Brar · Harshit Golani
+          </div>
+        </div>
+
+        <!-- FOUR QUADRANTS -->
+        <div class="cp-grid">
+
+        <!-- Q1: COMMON PROBLEMS ── Top-Left -->
+        <div class="cp-quadrant">
+          <div class="cp-qtitle red"><i class="ti ti-alert-triangle" style="font-size:1.1rem"></i> Common Problems Found</div>
+
+          <div class="cp-sub">Lack of Awareness</div>
+          <div class="cp-item">Not knowing what is safe online — messages and calls</div>
+          <div class="cp-item">Lack of knowledge about cyber risks and digital safety</div>
+          <div class="cp-item">Elderly are more vulnerable due to lack of knowledge — hard to tell genuine from fake</div>
+          <div class="cp-item"><span class="cp-underline">People don't report often</span> — it is harsh, time-consuming, and there is no trust in the system</div>
+          <div class="cp-item">Schools are not doing enough — majority treat it superficially, the problem is <span class="cp-underline">ignored and undervalued</span></div>
+
+          <div class="cp-sub">The Average Persona</div>
+          <div class="cp-item">Digitally influenced, slightly tech-aware user</div>
+          <div class="cp-item">Usually informed but has a <span class="cp-underline">fundamental lack of cyber-safety awareness</span></div>
+          <div class="cp-item">They lack a reliable system — doesn't know who to call or where to go</div>
+          <div class="cp-item">Victim to manipulation and social engineering tactics</div>
+          <div class="cp-item">Highly likely to feel helpless; seeks simple, fast solutions</div>
+
+          <div class="cp-sub">Common Solutions Offered</div>
+          <div class="cp-item check">Awareness campaigns</div>
+          <div class="cp-item check">Education on basic digital safety habits</div>
+          <div class="cp-item check">Educating people by organising workshops</div>
+          <div class="cp-item check">Alertness to common fraud topics</div>
+          <div class="cp-item check">Spreading awareness through social media</div>
+          <div class="cp-item check">Helping people by expanding digital literacy</div>
+        </div>
+
+        <!-- Q2: UNIQUE PROBLEM STATEMENTS ── Top-Right -->
+        <div class="cp-quadrant">
+          <div class="cp-qtitle" style="font-size:1.2rem"><i class="ti ti-clipboard-list" style="font-size:1.1rem"></i> Unique Problem Statements</div>
+
+          <div class="cp-item numbered" data-n="1">Consumer Responsibility — users themselves are responsible; internet safety is a personal responsibility, not just a system-level issue</div>
+          <div class="cp-item numbered" data-n="2">Absence of <span class="cp-underline">proactive information systems</span> for banning and harassment prevention</div>
+          <div class="cp-item numbered" data-n="3">Work identity notification missing in online platforms</div>
+          <div class="cp-item numbered" data-n="4">Normalisation of cyberbullying in online culture — not seen as a serious crime</div>
+          <div class="cp-item numbered" data-n="5">Emotional understanding lacking during cyber incidents — no empathetic support</div>
+          <div class="cp-item numbered" data-n="6">Privacy anxiety due to personal data exposure and awareness of data collection</div>
+          <div class="cp-item numbered" data-n="7"><span class="cp-underline">Real-time anti-fraud notification system</span> is absent — no alerts during suspicious transactions</div>
+          <div class="cp-item numbered" data-n="8">Dark-side real-time information on platforms — harmful content spreads faster than moderation</div>
+          <div class="cp-item numbered" data-n="9">No mandatory phone number tracking for harassers — anonymity enables repeat abuse</div>
+          <div class="cp-item numbered" data-n="10">Cultural barriers in accessing safety UX — language and design exclusions</div>
+          <div class="cp-item numbered" data-n="11">Localised criminal networks operating through digital channels go untracked</div>
+          <div class="cp-item numbered" data-n="12">Planned and coordinated criminal activities not detected by current systems</div>
+          <div class="cp-item numbered" data-n="13">Accountability gap — poor digital design that doesn't factor in misuse scenarios</div>
+          <div class="cp-item numbered" data-n="14">Legal &amp; communal criminal network links missing in reporting systems</div>
+        </div>
+
+        <!-- Q3: UNIQUE SOLUTIONS ── Bottom-Left (bottom-right in original) -->
+        <div class="cp-quadrant">
+          <div class="cp-qtitle green"><i class="ti ti-bulb" style="font-size:1.1rem"></i> Unique Solutions</div>
+
+          <div class="cp-item star">Consumer responsibility platform — users can flag, rate, and report digital threats collectively</div>
+          <div class="cp-item star">Proactive information system with real-time banning protocols</div>
+          <div class="cp-item star">Work identity verification layer on online platforms to reduce anonymity</div>
+          <div class="cp-item star">Normalisation counter-campaigns — educate that cyberbullying is a cognisable offence</div>
+          <div class="cp-item star">Emotional support chatbot integrated into fraud reporting flow</div>
+          <div class="cp-item star">Privacy data audit tool to show users who has their data</div>
+          <div class="cp-item star"><span class="cp-underline">Real-time anti-fraud notification</span> integrated with UPI and banking APIs</div>
+          <div class="cp-item star">Content velocity detection — flag posts spreading abnormally fast for human review</div>
+          <div class="cp-item star">Mandatory phone number linking for social media accounts with harassment history</div>
+          <div class="cp-item star">Localised criminal network map accessible to law enforcement agencies</div>
+          <div class="cp-item star">Coordinated attack detection using graph-based analysis of account behaviour</div>
+          <div class="cp-item star">Platform accountability score — public dashboard rating platforms on safety response speed</div>
+          <div class="cp-item star">Legal cross-referencing tool linking multiple digital crime reports automatically</div>
+        </div>
+
+        <!-- Q4: LEARNINGS ── Bottom-Right -->
+        <div class="cp-quadrant">
+          <div class="cp-qtitle orange"><i class="ti ti-school" style="font-size:1.1rem"></i> Learnings</div>
+
+          <div class="cp-item"><span class="cp-underline">Awareness exists but is superficial</span> — not deep enough to change behaviour under pressure</div>
+          <div class="cp-item">Human tendency to trust family/authority (social grade) is the <span class="cp-underline">main cause of scams</span> succeeding</div>
+          <div class="cp-item">Human literacy about digital fraud is the real gap — not technological barriers</div>
+          <div class="cp-item">Scams are highly relational — they target social bonds, not just technical vulnerabilities</div>
+          <div class="cp-item">Reporting is too slow — needs 4+ steps to activate any official response</div>
+          <div class="cp-item">Schools and colleges <span class="cp-underline">don't provide practical safety education</span> — only theoretical awareness</div>
+          <div class="cp-item">Cyberbullying is a cultural phenomenon, not a system design failure alone — requires social change alongside design</div>
+          <div class="cp-item">Safety depends on <span class="cp-underline">lived experience</span>, not just awareness campaigns</div>
+          <div class="cp-item">Current approach is <span class="cp-underline">reactionary, not preventive</span> — systems respond after harm, not before</div>
+
+          <div style="margin-top:1.25rem;padding-top:.75rem;border-top:1px dashed rgba(0,0,0,.15)">
+            <div style="font-family:'Caveat',cursive;font-size:.9rem;color:#888;text-align:right;font-style:italic">
+              → These learnings directly shaped our HMW selection and prototype direction
+            </div>
+          </div>
+        </div><!-- end quadrant -->
+
+        </div><!-- end cp-grid -->
+      </div><!-- end cp-content -->
+    </div><!-- end cp-sheet -->
+  </div><!-- end container -->
+</div><!-- end chartpaper-section -->
+
+<!-- KEY INSIGHTS SECTION -->
+<section class="section">
+  <div class="container">
+    <div class="section-label fade-in">What It Means</div>
+    <h2 class="section-title fade-in">Key insights extracted</h2>
+    <p class="section-intro fade-in">The workshop synthesis surfaced patterns that directly shaped our design direction. Here are the five most consequential insights.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem" class="fade-in">
+      <div class="insight-card">
+        <div class="insight-label"><i class="ti ti-alert-circle" style="font-size:.9rem;margin-right:.3rem"></i> Insight 01</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--text)">Awareness ≠ Behaviour Change</div>
+        <div class="insight-text">Participants were aware of digital risks but still fell victim. Knowledge doesn't translate to safety under pressure, urgency, or emotional manipulation. Design must work even when users are in a panicked or emotionally compromised state.</div>
+      </div>
+
+      <div class="insight-card" style="border-left-color:var(--teal)">
+        <div class="insight-label" style="color:var(--teal)"><i class="ti ti-users" style="font-size:.9rem;margin-right:.3rem"></i> Insight 02</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--text)">Trust Is the Attack Vector</div>
+        <div class="insight-text">The primary mechanism of every scam described was exploiting social trust — family bonds, authority figures, urgency. Scammers don't hack systems; they hack human psychology. Design must build counter-trust signals that are visible even in high-stress moments.</div>
+      </div>
+
+      <div class="insight-card" style="border-left-color:var(--amber)">
+        <div class="insight-label" style="color:var(--amber)"><i class="ti ti-clock" style="font-size:.9rem;margin-right:.3rem"></i> Insight 03</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--text)">Speed Is the Design Problem</div>
+        <div class="insight-text">Current reporting systems require 4+ steps and hours to activate any meaningful response. Scammers move money in minutes. The design must close the gap between harm occurring and institutional response — measured in seconds, not hours.</div>
+      </div>
+
+      <div class="insight-card" style="border-left-color:var(--purple)">
+        <div class="insight-label" style="color:var(--purple)"><i class="ti ti-building-school" style="font-size:.9rem;margin-right:.3rem"></i> Insight 04</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--text)">Institutional Failure Is Universal</div>
+        <div class="insight-text">Schools, banks, police, and platforms all received zero trust ratings in our workshop. Not a single participant felt any institution was proactively protecting them. Any design solution must work independently of institutional trust — with embedded legal mechanisms built-in.</div>
+      </div>
+
+      <div class="insight-card" style="border-left-color:var(--green)">
+        <div class="insight-label" style="color:var(--green)"><i class="ti ti-shield-check" style="font-size:.9rem;margin-right:.3rem"></i> Insight 05</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--text)">Prevention, Not Just Reaction</div>
+        <div class="insight-text">Every existing solution in India is reactive — report after the fact, freeze after the transfer, arrest after the harm. The workshop consensus: the most impactful design would be one that intervenes before or during the moment of harm, not 24 hours later.</div>
+      </div>
+
+      <div class="insight-card" style="border-left-color:var(--rose)">
+        <div class="insight-label" style="color:var(--rose)"><i class="ti ti-accessible" style="font-size:.9rem;margin-right:.3rem"></i> Insight 06</div>
+        <div style="font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:.5rem;color:var(--text)">Design Excludes the Most Vulnerable</div>
+        <div class="insight-text">The people most harmed — elderly users, low-literacy users, regional language speakers — are the least served by existing digital safety tools. Every safety product is designed for educated, English-speaking urban users. Radical accessibility is not a nice-to-have; it's the core design challenge.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WORKSHOP CONNECTS TO THE WHOLE PROJECT -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label fade-in">Connection to Project</div>
+    <h2 class="section-title fade-in">How this shaped everything</h2>
+    <div class="two-col fade-in">
+      <div>
+        <p style="margin-bottom:1.5rem;color:var(--text-muted);line-height:1.8">This workshop was the pivotal synthesis moment in our project — the point where raw interview data became actionable design direction. The four quadrants on the chart paper map directly onto our project structure.</p>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(185,28,28,.1);color:#B91C1C">P</div>
+            <div><div class="step-content-title">Common Problems → Root Cause Analysis</div><div class="step-content-desc">The problem quadrant became the foundation for our 10-theme RCA and 118 HMW questions in the Define phase.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(26,74,138,.1);color:#1A4A8A">S</div>
+            <div><div class="step-content-title">Unique Problem Statements → HMW Selection</div><div class="step-content-desc">The 14 unique problem statements fed directly into the HMW shortlist — the top-ranked one becoming our selected design challenge.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(21,128,61,.1);color:#15803D">I</div>
+            <div><div class="step-content-title">Unique Solutions → Ideation Seed Ideas</div><div class="step-content-desc">The solution quadrant seeded the 6-3-5 Brainwriting workshop, with several of these ideas evolving into our 7 final concepts.</div></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num" style="background:rgba(180,83,9,.1);color:#B45309">L</div>
+            <div><div class="step-content-title">Learnings → Design Principles</div><div class="step-content-desc">The learnings — especially "reactionary not preventive" and "speed is the design problem" — became the core principles guiding TrustGuard's architecture.</div></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--bg-dark);border-radius:var(--radius-lg);padding:2rem">
+          <div style="font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,211,180,.6);margin-bottom:1.5rem">Workshop → Outcome Mapping</div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;gap:.75rem;padding:.85rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:rgba(255,180,140,.8);flex-shrink:0;min-width:90px">"Reactionary"</span>
+              <span style="font-size:.8rem;color:rgba(250,250,247,.5)">→ TrustGuard's lock-screen SOS: intervene in the first 120 seconds</span>
+            </div>
+            <div style="display:flex;gap:.75rem;padding:.85rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:rgba(255,180,140,.8);flex-shrink:0;min-width:90px">"Trust attack"</span>
+              <span style="font-size:.8rem;color:rgba(250,250,247,.5)">→ Visible 256-bit security badge: visual counter-trust signal</span>
+            </div>
+            <div style="display:flex;gap:.75rem;padding:.85rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:rgba(255,180,140,.8);flex-shrink:0;min-width:90px">"4+ steps"</span>
+              <span style="font-size:.8rem;color:rgba(250,250,247,.5)">→ 5-field form, 90-second completion, one shareable ID</span>
+            </div>
+            <div style="display:flex;gap:.75rem;padding:.85rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:rgba(255,180,140,.8);flex-shrink:0;min-width:90px">"No system"</span>
+              <span style="font-size:.8rem;color:rgba(250,250,247,.5)">→ Universal Fraud-Event ID that works across banks + police</span>
+            </div>
+            <div style="display:flex;gap:.75rem;padding:.85rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <span style="font-family:'Caveat',cursive;font-size:1.1rem;color:rgba(255,180,140,.8);flex-shrink:0;min-width:90px">"Excludes elderly"</span>
+              <span style="font-size:.8rem;color:rgba(250,250,247,.5)">→ Voice-first, dialect-aware confirmation layer for Persona 02</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col"><div class="footer-brand">Designing Against Digital Harm</div><p>EHIX Design Thinking Project · May 2026</p></div>
+      <div class="footer-col"><ul class="footer-links">
+        <li><a href="empathize.html">Research &amp; Interviews</a></li>
+        <li><a href="personas.html">User Personas</a></li>
+        <li><a href="define.html">Problem Definition</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="ideate.html">Ideation Workshop</a></li>
+        <li><a href="solution.html">Solution (Live)</a></li>
+        <li><a href="legal.html">Legal Framework</a></li>
+        <li><a href="research.html">Research Insights</a></li>
+        <li><a href="interview-analysis.html">Workshop Notes</a></li>
+      </ul></div>
+    </div>
+    <hr class="footer-divider">
+    <p style="text-align:center;font-size:.72rem">Divyam Bafna · Manya Goyal · Rishabh Chaturvedi · Tanishka Sirohi · Rachit Ajmera · Naitik Gaur · Harshit Brar · Harshit Golani</p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

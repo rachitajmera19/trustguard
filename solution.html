@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustGuard — Live Prototype · DT Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+#readingBar { position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0; z-index:9999; transition:width .1s; }
+
+/* ── HERO BANNER ─────────────────────────── */
+.proto-hero {
+  background: var(--bg-dark);
+  padding: 5rem 0 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.proto-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 40%, rgba(192,68,38,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 75% 60%, rgba(35,91,78,.14) 0%, transparent 60%);
+  pointer-events: none;
+}
+.proto-hero-eyebrow {
+  font-family: var(--mono); font-size: .7rem; letter-spacing: .22em;
+  text-transform: uppercase; color: rgba(255,211,180,.7);
+  display: flex; align-items: center; gap: .75rem;
+  justify-content: center; margin-bottom: 1.5rem;
+}
+.proto-hero-eyebrow::before, .proto-hero-eyebrow::after {
+  content: ''; display: block; height: 1px; width: 32px;
+  background: rgba(255,211,180,.4);
+}
+.proto-hero h1 { font-family: var(--serif); color: rgba(250,250,247,.95); margin-bottom: 1rem; }
+.proto-hero h1 em { font-style: italic; color: rgba(255,211,180,.85); }
+.proto-hero-desc {
+  font-size: 1.05rem; color: rgba(250,250,247,.55);
+  max-width: 640px; margin: 0 auto 2.5rem; line-height: 1.75;
+}
+.proto-hero-badges {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem;
+}
+.proto-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .08em;
+  text-transform: uppercase; padding: .4rem 1rem; border-radius: 50px;
+  border: 1px solid; font-weight: 500;
+}
+.proto-badge.green  { border-color: rgba(35,91,78,.4);  color: rgba(160,220,190,.85); background: rgba(35,91,78,.15); }
+.proto-badge.orange { border-color: rgba(192,68,38,.4);  color: rgba(255,180,140,.85); background: rgba(192,68,38,.15); }
+.proto-badge.blue   { border-color: rgba(26,95,168,.4);  color: rgba(140,190,255,.85); background: rgba(26,95,168,.15); }
+
+/* ── HOW TO USE ──────────────────────────── */
+.how-to-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.25rem;
+}
+.how-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  display: flex; gap: 1.1rem; align-items: flex-start;
+  transition: box-shadow .2s, transform .2s;
+}
+.how-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.how-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(192,68,38,.1); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.how-title { font-weight: 600; font-size: .9rem; color: var(--text); margin-bottom: .3rem; }
+.how-desc  { font-size: .8rem; color: var(--text-muted); line-height: 1.6; }
+.how-tip {
+  display: inline-flex; align-items: center; gap: .3rem;
+  margin-top: .5rem; font-size: .72rem; font-family: var(--mono);
+  letter-spacing: .05em; color: var(--teal);
+  background: var(--teal-light); padding: .2rem .6rem; border-radius: 3px;
+}
+
+/* ── FIELDS GUIDE ────────────────────────── */
+.fields-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+.fields-table th {
+  text-align: left; padding: .7rem 1rem;
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 2px solid var(--text); font-weight: 500;
+}
+.fields-table td { padding: .75rem 1rem; border-bottom: 1px solid var(--border-light); vertical-align: top; line-height: 1.5; color: var(--text-muted); }
+.fields-table td strong { color: var(--text); }
+.fields-table tr:hover td { background: rgba(192,68,38,.02); }
+.req { color: var(--accent); font-weight: 700; font-size: .8rem; }
+
+/* ── LIVE DEMO SECTION ───────────────────── */
+.demo-section {
+  background: linear-gradient(180deg, #1A1410 0%, #0E0C0A 100%);
+  padding: 5rem 0;
+}
+.demo-section .section-label { color: rgba(255,211,180,.65); }
+.demo-section .section-label::before { background: rgba(255,211,180,.4); }
+.demo-section .section-title { color: rgba(250,250,247,.9); }
+.demo-section .section-intro  { color: rgba(250,250,247,.5); }
+.browser-frame {
+  background: #2A2522;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
+  max-width: 700px;
+  margin: 0 auto;
+}
+.browser-chrome {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .85rem 1.25rem;
+  background: #211E1B;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.browser-dots { display: flex; gap: .4rem; }
+.browser-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+}
+.browser-dot.red    { background: #FF5F56; }
+.browser-dot.yellow { background: #FEBC2E; }
+.browser-dot.green  { background: #28C841; }
+.browser-url {
+  flex: 1; background: #181512; border-radius: 5px;
+  padding: .3rem .85rem; font-family: var(--mono); font-size: .72rem;
+  color: rgba(255,255,255,.45); margin: 0 .5rem;
+  display: flex; align-items: center; gap: .4rem;
+}
+.browser-url i { color: rgba(160,220,190,.7); font-size: .8rem; }
+.proto-iframe {
+  width: 100%;
+  height: 760px;
+  border: none;
+  display: block;
+  background: #f8fafc;
+  overflow: auto;
+}
+
+/* ── ID EXPLAINED ────────────────────────── */
+.id-breakdown {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap; margin: 2rem 0;
+}
+.id-seg {
+  text-align: center; padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border); background: var(--bg-card);
+  border-right: none;
+}
+.id-seg:last-child { border-right: 1px solid var(--border); }
+.id-seg-val {
+  font-family: var(--mono); font-size: 1.6rem; font-weight: 700;
+  color: var(--accent); letter-spacing: .08em;
+}
+.id-seg-label {
+  font-family: var(--mono); font-size: .65rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-muted); margin-top: .35rem;
+}
+
+/* ── DESIGN RATIONALE ────────────────────── */
+.rationale-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+.rationale-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem;
+  border-top: 3px solid var(--accent);
+}
+.rationale-icon { font-size: 1.75rem; margin-bottom: .75rem; }
+.rationale-title { font-weight: 600; font-size: .95rem; color: var(--text); margin-bottom: .5rem; }
+.rationale-desc  { font-size: .82rem; color: var(--text-muted); line-height: 1.65; }
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 768px) {
+  .proto-hero { padding: 3.5rem 0 3rem; }
+  .browser-frame { border-radius: 8px; }
+  .id-breakdown { flex-direction: column; }
+  .id-seg { border-right: 1px solid var(--border); border-bottom: none; width: 100%; }
+  .id-seg:last-child { border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+<div id="readingBar"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a class="nav-logo" href="../index.html"><span class="logo-accent">DT</span> Digital Harm</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="empathize.html">Empathize</a></li>
+      <li><a href="personas.html">Personas</a></li>
+      <li><a href="define.html">Define</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="ideate.html">Ideate</a></li>
+      <li><a href="solution.html" class="active">Solution</a></li>
+      <li><a href="legal.html">Legal</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="interview-analysis.html">Workshop Notes</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><i class="ti ti-menu-2"></i></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html">Home</a>
+    <a href="empathize.html">Empathize</a>
+    <a href="personas.html">Personas</a>
+    <a href="define.html">Define</a>
+    <a href="case-studies.html">Case Studies</a>
+    <a href="ideate.html">Ideate</a>
+    <a href="solution.html" class="active">Solution (Live)</a>
+    <a href="legal.html">Legal</a>
+    <a href="research.html">Research</a>
+    <a href="interview-analysis.html">Workshop Notes</a>
+  </div>
+</nav>
+
+<!-- HERO BANNER -->
+<div class="proto-hero">
+  <div class="container" style="position:relative;z-index:1">
+    <a href="../index.html" class="back-btn" style="display:inline-flex;margin-bottom:2rem;border-color:rgba(255,255,255,.15);color:rgba(250,250,247,.6)">
+      <i class="ti ti-arrow-left"></i> Back to Home
+    </a>
+    <div class="proto-hero-eyebrow">Phase 04 · Solution · Live Prototype</div>
+    <h1>TrustGuard — <em>Fraud-Event ID Generator</em></h1>
+    <p class="proto-hero-desc">Our working prototype for the National Fraud Freeze concept. Victims generate a secure, trackable Fraud-Event ID instantly — bypassing manual FIR paperwork and giving law enforcement a standardised reference from the first minute.</p>
+    <div class="proto-hero-badges">
+      <span class="proto-badge green"><i class="ti ti-shield-check"></i> 256-bit Encrypted</span>
+      <span class="proto-badge orange"><i class="ti ti-bolt"></i> Generates ID in 1.5s</span>
+      <span class="proto-badge blue"><i class="ti ti-device-mobile"></i> Mobile-First Design</span>
+      <span class="proto-badge green"><i class="ti ti-file-download"></i> Downloadable PDF Report</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT IT SOLVES -->
+<section class="section">
+  <div class="container">
+    <div class="section-label fade-in">The Problem This Solves</div>
+    <h2 class="section-title fade-in">Why TrustGuard exists</h2>
+    <div class="two-col fade-in">
+      <div>
+        <p style="margin-bottom:1.25rem">Today, a victim of financial fraud in India must navigate a fragmented, slow, and inaccessible reporting system. They must call their bank (on hold, multiple departments), file a cybercrime complaint online (complex UI), visit a police station (FIR paperwork), and keep track of multiple different reference numbers — all while in a state of shock.</p>
+        <p>TrustGuard collapses this entire process into <strong>a single 90-second interaction</strong>. The Fraud-Event ID it generates is a universal reference that works across banks, police portals, and cybercrime cells — eliminating the need to re-file the same information multiple times.</p>
+      </div>
+      <div>
+        <div class="stat-row">
+          <div class="stat-item"><div class="stat-num">1</div><div class="stat-label">Single form</div></div>
+          <div class="stat-item"><div class="stat-num">90s</div><div class="stat-label">Time to ID</div></div>
+          <div class="stat-item"><div class="stat-num">0</div><div class="stat-label">FIR visits needed</div></div>
+          <div class="stat-item"><div class="stat-num">∞</div><div class="stat-label">Reusable references</div></div>
+        </div>
+        <div class="quote-block" style="margin-top:1.5rem">
+          <div class="quote-text">"If it's a scam worth ₹500, even the authorities are not going to take you seriously."</div>
+          <div class="quote-attr">— Research participant. TrustGuard gives every victim a credible, documented reference regardless of amount.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO USE — DETAILED GUIDE -->
+<section class="section section-alt" id="how-to-use">
+  <div class="container">
+    <div class="section-label fade-in">Step-by-Step Guide</div>
+    <h2 class="section-title fade-in">How to use TrustGuard</h2>
+    <p class="section-intro fade-in">Follow these steps to generate your Fraud-Event ID using the live prototype below. Each step takes seconds — total time from start to ID is under 2 minutes.</p>
+
+    <div class="how-to-grid fade-in">
+      <div class="how-card">
+        <div class="how-num">1</div>
+        <div>
+          <div class="how-title">Open the Prototype</div>
+          <div class="how-desc">Scroll down to the <strong>Live Prototype</strong> section on this page. The TrustGuard form loads directly in the browser — no downloads, no login, no app required.</div>
+          <span class="how-tip"><i class="ti ti-arrow-down"></i> Scroll to "Try It Now"</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">2</div>
+        <div>
+          <div class="how-title">Enter Your Full Legal Name</div>
+          <div class="how-desc">Type your full name exactly as it appears on your Aadhaar, PAN, or other official identification. This will appear on the PDF report and is used by authorities for verification.</div>
+          <span class="how-tip"><i class="ti ti-info-circle"></i> Required field</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">3</div>
+        <div>
+          <div class="how-title">Add Contact Information</div>
+          <div class="how-desc">Enter your email address or phone number. This is your <em>contact override</em> — the channel authorities and banks will use to reach you about your case. Use a number or email you actively monitor.</div>
+          <span class="how-tip"><i class="ti ti-info-circle"></i> Required field</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">4</div>
+        <div>
+          <div class="how-title">Select the Date of Incident</div>
+          <div class="how-desc">Pick the exact date the fraud occurred using the date picker. The system prevents future dates. If you're unsure of the exact date, use the closest known date. Accurate dates help law enforcement correlate transaction logs.</div>
+          <span class="how-tip"><i class="ti ti-calendar"></i> Cannot be a future date</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">5</div>
+        <div>
+          <div class="how-title">Choose a Fraud Category</div>
+          <div class="how-desc">Select the category that best describes what happened. Options: <strong>Financial / Bank Fraud</strong> (UPI scam, fake calls), <strong>Identity Theft</strong>, <strong>Cyber / Phishing</strong> (fake links, OTP theft), <strong>Property Fraud</strong>, or <strong>Other</strong>.</div>
+          <span class="how-tip"><i class="ti ti-list"></i> Required — select one</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">6</div>
+        <div>
+          <div class="how-title">Write a Brief Description (Optional)</div>
+          <div class="how-desc">A 2–4 sentence summary of what happened. Example: <em>"I received a call from someone claiming to be from SBI. They asked me to share my OTP to prevent account blocking. I shared it and ₹25,000 was transferred."</em> More detail = faster resolution.</div>
+          <span class="how-tip"><i class="ti ti-writing"></i> Optional but recommended</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">7</div>
+        <div>
+          <div class="how-title">Click "Generate Fraud ID"</div>
+          <div class="how-desc">Press the blue <strong>Generate Fraud ID</strong> button. A 1.5-second processing animation runs (simulating a secure backend API call). The button disables during processing to prevent double-submission.</div>
+          <span class="how-tip"><i class="ti ti-bolt"></i> 1.5 second processing</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">8</div>
+        <div>
+          <div class="how-title">View Your Fraud-Event ID</div>
+          <div class="how-desc">The success screen displays your unique Fraud-Event ID in the format <code style="font-size:.8rem;background:var(--bg-alt);padding:.1rem .4rem;border-radius:3px">FRD-2026-XXXX-XXXX</code>. This ID is cryptographically generated and globally unique — no two IDs are ever the same.</div>
+          <span class="how-tip"><i class="ti ti-check"></i> Animated success confirmation</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">9</div>
+        <div>
+          <div class="how-title">Copy the ID to Clipboard</div>
+          <div class="how-desc">Click the <strong>copy icon</strong> next to your ID. A "Copied!" tooltip confirms the copy. Paste this ID directly into your bank's fraud reporting form, police complaint portal, or share it via WhatsApp with the relevant authority.</div>
+          <span class="how-tip"><i class="ti ti-clipboard"></i> One-click copy</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">10</div>
+        <div>
+          <div class="how-title">Share with Your Bank</div>
+          <div class="how-desc">Call your bank's fraud helpline (e.g. SBI: 1800-11-2211) and quote your Fraud-Event ID as the case reference. The ID contains your incident category and timestamp — banks can use it to pull your report details instantly.</div>
+          <span class="how-tip"><i class="ti ti-building-bank"></i> Step 1 on success screen</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">11</div>
+        <div>
+          <div class="how-title">Share with Law Enforcement</div>
+          <div class="how-desc">Provide your Fraud-Event ID to the cybercrime cell (cybercrime.gov.in) or local police station. The ID replaces the need to re-explain the incident — officers look it up in the system and see the full documented record.</div>
+          <span class="how-tip"><i class="ti ti-shield"></i> Step 2 on success screen</span>
+        </div>
+      </div>
+
+      <div class="how-card">
+        <div class="how-num">12</div>
+        <div>
+          <div class="how-title">Download Your PDF Report</div>
+          <div class="how-desc">Click <strong>Download PDF</strong> to get a formatted PDF confirmation of your report. This serves as official documentation — keep a copy for your records, share with your bank's dispute team, and store it safely.</div>
+          <span class="how-tip"><i class="ti ti-file-download"></i> Simulated in prototype</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM FIELDS REFERENCE -->
+<section class="section">
+  <div class="container">
+    <div class="section-label fade-in">Form Reference</div>
+    <h2 class="section-title fade-in">Every field explained</h2>
+    <p class="section-intro fade-in">A quick reference for each input in the TrustGuard form — what it is, why it's needed, and what to enter.</p>
+    <div style="overflow-x:auto" class="fade-in">
+    <table class="fields-table">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Required?</th>
+          <th>What to Enter</th>
+          <th>Why It Matters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Full Legal Name</strong></td>
+          <td><span class="req">✓ Yes</span></td>
+          <td>Name as on Aadhaar / PAN card</td>
+          <td>Used by banks and police to verify your identity when they look up the case ID</td>
+        </tr>
+        <tr>
+          <td><strong>Contact Override</strong></td>
+          <td><span class="req">✓ Yes</span></td>
+          <td>Active email address or phone number</td>
+          <td>Authorities use this to reach you for follow-up, evidence requests, and status updates</td>
+        </tr>
+        <tr>
+          <td><strong>Date of Incident</strong></td>
+          <td><span class="req">✓ Yes</span></td>
+          <td>Date the fraud actually occurred (not today unless it happened today)</td>
+          <td>Helps law enforcement correlate transaction logs and bank records with the correct time window</td>
+        </tr>
+        <tr>
+          <td><strong>Category of Fraud</strong></td>
+          <td><span class="req">✓ Yes</span></td>
+          <td>Select the most specific category from the dropdown</td>
+          <td>Routes your case to the correct department. Financial fraud goes to the bank fraud unit; cyber/phishing to cybercrime cell</td>
+        </tr>
+        <tr>
+          <td><strong>Brief Description</strong></td>
+          <td>Optional</td>
+          <td>2–5 sentences describing what happened, how, and the approximate amount involved</td>
+          <td>Provides human context that the ID alone cannot. Detailed descriptions result in faster resolution and fewer follow-up calls to you</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+<!-- UNDERSTANDING YOUR FRAUD-EVENT ID -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label fade-in">The ID Explained</div>
+    <h2 class="section-title fade-in">Anatomy of a Fraud-Event ID</h2>
+    <p style="color:var(--text-muted);max-width:640px;margin-bottom:2.5rem;line-height:1.75" class="fade-in">Every ID generated by TrustGuard follows a structured format that encodes useful metadata — making it machine-readable for banks and police systems, not just a random reference number.</p>
+    <div class="id-breakdown fade-in">
+      <div class="id-seg">
+        <div class="id-seg-val">FRD</div>
+        <div class="id-seg-label">Prefix</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:.35rem;max-width:110px">"Fraud Report Document" — identifies the record type</div>
+      </div>
+      <div class="id-seg">
+        <div class="id-seg-val">2026</div>
+        <div class="id-seg-label">Year</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:.35rem;max-width:110px">Year of ID generation — enables annual record partitioning</div>
+      </div>
+      <div class="id-seg">
+        <div class="id-seg-val">X4K2</div>
+        <div class="id-seg-label">Segment A</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:.35rem;max-width:110px">4-char random alphanumeric — cryptographically generated</div>
+      </div>
+      <div class="id-seg">
+        <div class="id-seg-val">9MNP</div>
+        <div class="id-seg-label">Segment B</div>
+        <div style="font-size:.75rem;color:var(--text-muted);margin-top:.35rem;max-width:110px">Second 4-char segment — over 1.6 billion unique combinations</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-family:var(--mono);font-size:.72rem;color:var(--text-light);letter-spacing:.08em" class="fade-in">Example: FRD–2026–X4K2–9MNP &nbsp;|&nbsp; Total unique combinations: 36⁴ × 36⁴ = 1,679,616 per year</p>
+  </div>
+</section>
+
+<!-- LIVE PROTOTYPE -->
+<section class="demo-section" id="try-it">
+  <div class="container">
+    <div class="section-label fade-in">Try It Now</div>
+    <h2 class="section-title fade-in" style="color:rgba(250,250,247,.9)">Live Prototype</h2>
+    <p class="section-intro fade-in">This is the actual working prototype. Fill in the form below and generate a real Fraud-Event ID — everything functions exactly as it would in the final deployed product.</p>
+
+    <div class="browser-frame fade-in">
+      <div class="browser-chrome">
+        <div class="browser-dots">
+          <div class="browser-dot red"></div>
+          <div class="browser-dot yellow"></div>
+          <div class="browser-dot green"></div>
+        </div>
+        <div class="browser-url">
+          <i class="ti ti-lock"></i>
+          trustguard.in/report
+        </div>
+      </div>
+      <iframe
+        id="protoFrame"
+        class="proto-iframe"
+        src="prototype/index.html"
+        title="TrustGuard Fraud-Event ID Generator — Live Prototype"
+        scrolling="yes"
+        style="height:760px"
+      ></iframe>
+    </div>
+
+    <p style="text-align:center;font-family:var(--mono);font-size:.7rem;color:rgba(255,255,255,.25);letter-spacing:.08em;margin-top:1.25rem;text-transform:uppercase">
+      <i class="ti ti-info-circle" style="font-size:.85rem;vertical-align:-1px"></i>
+      &nbsp;Prototype only — no data is stored or transmitted. IDs generated are for demonstration purposes.
+    </p>
+  </div>
+</section>
+
+<!-- DESIGN RATIONALE -->
+<section class="section">
+  <div class="container">
+    <div class="section-label fade-in">Design Rationale</div>
+    <h2 class="section-title fade-in">Why we designed it this way</h2>
+    <p class="section-intro fade-in">Every design decision in TrustGuard traces back to a specific finding from our research or a constraint identified during the Define phase.</p>
+    <div class="rationale-grid fade-in">
+      <div class="rationale-card">
+        <div class="rationale-icon">⚡</div>
+        <div class="rationale-title">Speed Over Completeness</div>
+        <div class="rationale-desc">The form has only 5 fields — not 25. Research showed victims in distress abandon complex forms. A 5-field form with a 90-second completion time maximises the chance someone actually reports. The ID is generated immediately; deeper details can be added later.</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">🔒</div>
+        <div class="rationale-title">256-bit Encryption Badge</div>
+        <div class="rationale-desc">The visible "256-bit Encrypted" badge addresses a critical trust barrier identified in interviews — participants said they don't report online because they don't trust government websites. Visual security signals directly tackle this friction point.</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">📋</div>
+        <div class="rationale-title">Structured ID Over Free-Text</div>
+        <div class="rationale-desc">A machine-readable ID (FRD-YEAR-XXXX-XXXX) enables cross-system lookup — one ID works at any bank, police station, or cybercrime portal. Free-text references fail because no two systems use the same format. This is the core interoperability innovation.</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">📱</div>
+        <div class="rationale-title">Mobile-First, Single Column</div>
+        <div class="rationale-desc">70% of fraud occurs via phone calls, meaning victims are on mobile when they need to report. The single-column, large-tap-target design works on small screens under stress. The max-width of 540px prevents accidental wide-screen form sprawl.</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">✂️</div>
+        <div class="rationale-title">Copy-to-Clipboard for the ID</div>
+        <div class="rationale-desc">Interviews showed that victims who wrote down reference numbers often lost them or made errors. One-tap clipboard copy eliminates transcription errors when sharing the ID with bank helplines or pasting into complaint portals. The "Copied!" tooltip confirms success.</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">🔄</div>
+        <div class="rationale-title">Animated Success → Trust Signal</div>
+        <div class="rationale-desc">The animated check icon and "Event Recorded" confirmation screen directly addresses finding #7 from our research: victims feel abandoned when they report and receive no acknowledgement. The animation and success state create emotional reassurance that something concrete happened.</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">📄</div>
+        <div class="rationale-title">PDF Download for Paper Trails</div>
+        <div class="rationale-desc">Many elderly users and traditional authorities still require printed documentation. The PDF download bridges the digital-physical gap — giving victims a printable record they can physically hand to a bank manager or police officer, eliminating "we need something in writing."</div>
+      </div>
+      <div class="rationale-card">
+        <div class="rationale-icon">🔁</div>
+        <div class="rationale-title">"File Another Report" Button</div>
+        <div class="rationale-desc">Research revealed that many victims experience multiple incidents or want to report on behalf of family members. The reset flow allows multiple reports in one session — critical for elderly users who may be assisted by a family member filing several related incidents.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label fade-in">Roadmap</div>
+    <h2 class="section-title fade-in">From prototype to deployment</h2>
+    <div class="two-col fade-in">
+      <div>
+        <p style="margin-bottom:1.5rem;color:var(--text-muted);line-height:1.75">TrustGuard is currently a front-end prototype. Deployment as a real system requires backend integration with NPCI, scheduled banks, and the National Cybercrime Portal. Here is the path forward.</p>
+        <div class="step-list">
+          <div class="step-item"><div class="step-num">→</div><div><div class="step-content-title">Phase 1: User Testing (Now)</div><div class="step-content-desc">Test this prototype with 5 fraud victims and 3 elderly users. Measure: time to complete, error rate, emotional response on success screen.</div></div></div>
+          <div class="step-item"><div class="step-num">→</div><div><div class="step-content-title">Phase 2: Backend API</div><div class="step-content-desc">Build the fraud ID generation API with real persistence. Integrate with cybercrime.gov.in's reporting endpoint for automatic case forwarding.</div></div></div>
+          <div class="step-item"><div class="step-num">→</div><div><div class="step-content-title">Phase 3: Bank Integration</div><div class="step-content-desc">Pilot with 2–3 banks (ideally SBI and HDFC) to accept Fraud-Event IDs as valid case references in their fraud dispute systems.</div></div></div>
+          <div class="step-item"><div class="step-num">→</div><div><div class="step-content-title">Phase 4: Voice-First Layer</div><div class="step-content-desc">Add voice-guided form filling in Hindi, Telugu, and Tamil — making the system accessible to elderly and low-literacy users as per our persona research.</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--bg-dark);padding:2rem;border-radius:var(--radius-lg)">
+          <div style="font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,211,180,.6);margin-bottom:1.25rem">What the full system needs</div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <i class="ti ti-database" style="color:rgba(255,211,180,.6);flex-shrink:0;margin-top:.1rem"></i>
+              <div style="font-size:.82rem;color:rgba(250,250,247,.55);line-height:1.5"><strong style="color:rgba(250,250,247,.8)">Secure Backend Database</strong> — encrypted fraud records with cross-bank lookup capability</div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <i class="ti ti-api" style="color:rgba(255,211,180,.6);flex-shrink:0;margin-top:.1rem"></i>
+              <div style="font-size:.82rem;color:rgba(250,250,247,.55);line-height:1.5"><strong style="color:rgba(250,250,247,.8)">NPCI &amp; Bank APIs</strong> — real-time freeze trigger within 2 minutes of report submission</div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <i class="ti ti-microphone" style="color:rgba(255,211,180,.6);flex-shrink:0;margin-top:.1rem"></i>
+              <div style="font-size:.82rem;color:rgba(250,250,247,.55);line-height:1.5"><strong style="color:rgba(250,250,247,.8)">Voice STT Pipeline</strong> — regional speech-to-text for dialect-aware form completion</div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <i class="ti ti-chart-line" style="color:rgba(255,211,180,.6);flex-shrink:0;margin-top:.1rem"></i>
+              <div style="font-size:.82rem;color:rgba(250,250,247,.55);line-height:1.5"><strong style="color:rgba(250,250,247,.8)">Live Status Dashboard</strong> — victim-facing case tracker showing real-time progress after filing</div>
+            </div>
+            <div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem;background:rgba(255,255,255,.04);border-radius:var(--radius)">
+              <i class="ti ti-device-mobile" style="color:rgba(255,211,180,.6);flex-shrink:0;margin-top:.1rem"></i>
+              <div style="font-size:.82rem;color:rgba(250,250,247,.55);line-height:1.5"><strong style="color:rgba(250,250,247,.8)">OS-Level Shortcut</strong> — lock screen SOS button for zero-login access in emergencies</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col"><div class="footer-brand">Designing Against Digital Harm</div><p>EHIX Design Thinking Project · May 2026</p></div>
+      <div class="footer-col"><ul class="footer-links">
+        <li><a href="empathize.html">Research &amp; Interviews</a></li>
+        <li><a href="personas.html">User Personas</a></li>
+        <li><a href="define.html">Problem Definition</a></li>
+        <li><a href="case-studies.html">Case Studies</a></li>
+        <li><a href="ideate.html">Ideation Workshop</a></li>
+        <li><a href="solution.html">Solution (Live)</a></li>
+        <li><a href="legal.html">Legal Framework</a></li>
+        <li><a href="research.html">Research Insights</a></li>
+        <li><a href="interview-analysis.html">Workshop Notes</a></li>
+      </ul></div>
+    </div>
+    <hr class="footer-divider">
+    <p style="text-align:center;font-size:.72rem">Divyam Bafna · Manya Goyal · Rishabh Chaturvedi · Tanishka Sirohi · Rachit Ajmera · Naitik Gaur · Harshit Brar · Harshit Golani</p>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+// The prototype iframe now uses a fixed height so typing inside the form cannot
+// resize the parent page or push the screen downward while the user is entering data.
+</script>
+</body>
+</html>

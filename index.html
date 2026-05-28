@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designing Against Digital Harm — DT Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/dist/tabler-icons.min.css">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .hero-badge { display:inline-flex;align-items:center;gap:.5rem;background:rgba(192,68,38,.08);border:1px solid rgba(192,68,38,.2);border-radius:50px;padding:.4rem 1rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;animation:fadeUp .6s ease both; }
+  @keyframes pulse-dot {
+    0%,100% { opacity:1; }
+    50% { opacity:.3; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-accent">DT</span> Digital Harm
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="pages/empathize.html">Empathize</a></li>
+      <li><a href="pages/personas.html">Personas</a></li>
+      <li><a href="pages/define.html">Define</a></li>
+      <li><a href="pages/case-studies.html">Case Studies</a></li>
+      <li><a href="pages/ideate.html">Ideate</a></li>
+      <li><a href="pages/solution.html">Solution</a></li>
+      <li><a href="pages/legal.html">Legal</a></li>
+      <li><a href="pages/research.html">Research</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><i class="ti ti-menu-2"></i></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="active">Home</a>
+    <a href="pages/empathize.html">Empathize</a>
+    <a href="pages/personas.html">Personas</a>
+    <a href="pages/define.html">Define</a>
+    <a href="pages/case-studies.html">Case Studies</a>
+    <a href="pages/ideate.html">Ideate</a>
+    <a href="pages/solution.html">Solution</a>
+    <a href="pages/legal.html">Legal Framework</a>
+    <a href="pages/research.html">Research Insights</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><i class="ti ti-shield-check"></i> Design Thinking Project · May 2026</div>
+  <h1>Designing Against<br><em>Digital Harm</em></h1>
+  <p class="hero-sub">A human-centred investigation into cyberbullying and online fraud in India — from lived experience to actionable design solutions.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num">10</span><span class="hero-stat-label">Interviews</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">9/10</span><span class="hero-stat-label">Exposure Rate</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">118</span><span class="hero-stat-label">HMW Questions</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">108</span><span class="hero-stat-label">Ideas Generated</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">7</span><span class="hero-stat-label">Solution Concepts</span></div>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search components, topics, or keywords…">
+    <i class="ti ti-search search-icon"></i>
+  </div>
+  <a href="#components" style="font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-light);display:flex;flex-direction:column;align-items:center;gap:.5rem;text-decoration:none;animation:fadeUp .8s .5s ease both">
+    Explore
+    <span style="display:block;width:1px;height:36px;background:var(--border)"></span>
+  </a>
+</section>
+
+<!-- COMPONENTS GRID -->
+<section class="section" id="components">
+  <div class="container">
+    <div class="section-label">Project Modules</div>
+    <h2 class="section-title">Explore the full project</h2>
+    <p class="section-intro">Eight interconnected components spanning every stage of the Design Thinking process — click any card to explore the full detail.</p>
+
+    <div class="components-grid" id="componentsGrid">
+
+      <a href="pages/empathize.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:var(--teal-light)"><i class="ti ti-users" style="color:var(--teal);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Phase 01</div>
+            <div class="comp-title">Research &amp; Interviews</div>
+          </div>
+        </div>
+        <p class="comp-desc">Qualitative interviews with 10 participants across India — uncovering the lived realities of cyberbullying, online fraud, and digital manipulation. Includes participant profiles, key findings, and direct quotes.</p>
+        <div class="comp-footer">
+          <span class="comp-stat">10 interviews · 9/10 affected</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/personas.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:var(--amber-light)"><i class="ti ti-user-circle" style="color:var(--amber);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Phase 02</div>
+            <div class="comp-title">User Personas</div>
+          </div>
+        </div>
+        <p class="comp-desc">Three composite personas synthesised from our primary research — representing a teenage social media user, an elderly digital user, and an urban working professional. Each persona guides a distinct design direction.</p>
+        <div class="comp-footer">
+          <span class="comp-stat">3 personas · 7 user types</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/define.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:rgba(192,68,38,.1)"><i class="ti ti-target" style="color:var(--accent);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Phase 02</div>
+            <div class="comp-title">Problem Definition</div>
+          </div>
+        </div>
+        <p class="comp-desc">From 118 How Might We questions to a single, focused design challenge — powered by root cause analysis, thematic clustering, and a three-criteria scoring rubric (impact, feasibility, novelty).</p>
+        <div class="comp-footer">
+          <span class="comp-stat">118 HMWs · 10 root causes</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/case-studies.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:var(--purple-light)"><i class="ti ti-file-text" style="color:var(--purple);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Context</div>
+            <div class="comp-title">Case Studies</div>
+          </div>
+        </div>
+        <p class="comp-desc">Two documented real-world cyberbullying cases from Hyderabad — Shanaya Khan (teen harassment) and Renu Desai (celebrity targeted abuse) — that grounded and shaped every design decision.</p>
+        <div class="comp-footer">
+          <span class="comp-stat">2 real cases · Hyderabad</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/ideate.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:var(--green-light)"><i class="ti ti-bulb" style="color:var(--green);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Phase 03</div>
+            <div class="comp-title">Ideation Workshop</div>
+          </div>
+        </div>
+        <p class="comp-desc">A structured 6-3-5 Brainwriting session with 6 participants generating 108 ideas in 30 minutes — clustered and scored into 7 actionable solution concepts ready for prototyping.</p>
+        <div class="comp-footer">
+          <span class="comp-stat">108 ideas · 7 concepts</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/solution.html" class="comp-card" style="text-decoration:none;color:inherit;border:2px solid var(--accent);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;padding:.3rem 1rem;background:var(--accent);font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-align:center;display:flex;align-items:center;justify-content:center;gap:.5rem">
+          <i class="ti ti-circle-filled" style="font-size:.55rem;animation:pulse-dot 1.5s ease infinite"></i>
+          Live Working Prototype — Try It Now
+        </div>
+        <div class="comp-card-top" style="margin-top:1.5rem">
+          <div class="comp-icon" style="background:var(--blue-light)"><i class="ti ti-shield-bolt" style="color:var(--blue);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Phase 04 · Live Prototype</div>
+            <div class="comp-title">TrustGuard — Fraud-Event ID</div>
+          </div>
+        </div>
+        <p class="comp-desc">A <strong>fully working</strong> fraud reporting tool — fill in a 5-field form and generate a real Fraud-Event ID (like <code style="font-size:.78rem;background:var(--bg-alt);padding:.05rem .35rem;border-radius:2px">FRD-2026-X4K2-9MNP</code>) you can share with banks and police. Includes a detailed how-to guide.</p>
+        <div class="comp-footer" style="background:rgba(192,68,38,.04)">
+          <span class="comp-stat" style="color:var(--accent)">Live · Generate ID in 90 seconds</span>
+          <span class="comp-link" style="color:var(--accent)">Try it <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/legal.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:var(--slate-light)"><i class="ti ti-scale" style="color:var(--slate);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Context</div>
+            <div class="comp-title">Legal Framework</div>
+          </div>
+        </div>
+        <p class="comp-desc">The Indian legal landscape governing digital harm — IT Act 2000, IPC provisions, the DPDP Act 2023, and the landmark Telangana zero-tolerance precedent established through the Renu Desai case.</p>
+        <div class="comp-footer">
+          <span class="comp-stat">4 acts · 8+ sections</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a href="pages/research.html" class="comp-card" style="text-decoration:none;color:inherit">
+        <div class="comp-card-top">
+          <div class="comp-icon" style="background:var(--rose-light)"><i class="ti ti-chart-bar" style="color:var(--rose);font-size:1.5rem"></i></div>
+          <div class="comp-card-heading">
+            <div class="comp-phase">Analysis</div>
+            <div class="comp-title">Research Insights</div>
+          </div>
+        </div>
+        <p class="comp-desc">Quantitative and qualitative findings from our primary research — the statistics, thematic patterns, and behavioural insights that informed every design and strategy decision in this project.</p>
+        <div class="comp-footer">
+          <span class="comp-stat">10 participants · 6 themes</span>
+          <span class="comp-link">Explore <i class="ti ti-arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+    <div class="no-results" id="noResults">No components match your search.</div>
+  </div>
+</section>
+
+<!-- DT PROCESS -->
+<section class="section section-alt" id="process">
+  <div class="container">
+    <div class="section-label fade-in">Methodology</div>
+    <h2 class="section-title fade-in">Our design thinking process</h2>
+    <p class="section-intro fade-in">Following Stanford d.school's five-stage framework — every decision grounded in human experience before arriving at solutions.</p>
+    <div class="process-timeline fade-in">
+      <div class="process-step"><div class="ps-num">Phase 01</div><div class="ps-name">Empathize</div><div class="ps-desc">10 in-depth interviews and qualitative analysis</div><span class="ps-badge">10 interviews</span></div>
+      <div class="process-step"><div class="ps-num">Phase 02</div><div class="ps-name">Define</div><div class="ps-desc">RCA, personas, and 118 HMW questions</div><span class="ps-badge">118 HMWs</span></div>
+      <div class="process-step active"><div class="ps-num">Phase 03</div><div class="ps-name">Ideate</div><div class="ps-desc">6-3-5 Brainwriting → 7 solution concepts</div><span class="ps-badge">7 concepts</span></div>
+      <div class="process-step"><div class="ps-num">Phase 04</div><div class="ps-name">Prototype</div><div class="ps-desc">Lo-fi prototypes of the selected concept</div><span class="ps-badge">In progress</span></div>
+      <div class="process-step"><div class="ps-num">Phase 05</div><div class="ps-name">Test</div><div class="ps-desc">User testing and iterative refinement</div><span class="ps-badge">Upcoming</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="container">
+    <div class="section-label fade-in">The Team</div>
+    <h2 class="section-title fade-in">Meet the researchers</h2>
+    <p class="section-intro fade-in">Eight students who conducted the research, interviews, ideation workshops, and synthesis that make up this project.</p>
+    <div class="team-grid">
+      <div class="team-card fade-in"><div class="team-avatar">DB</div><div class="team-name">Divyam Bafna</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in fade-delay-1"><div class="team-avatar">MG</div><div class="team-name">Manya Goyal</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in fade-delay-2"><div class="team-avatar">RC</div><div class="team-name">Rishabh Chaturvedi</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in fade-delay-3"><div class="team-avatar">TS</div><div class="team-name">Tanishka Sirohi</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in"><div class="team-avatar">RA</div><div class="team-name">Rachit Ajmera</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in fade-delay-1"><div class="team-avatar">NG</div><div class="team-name">Naitik Gaur</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in fade-delay-2"><div class="team-avatar">HB</div><div class="team-name">Harshit Brar</div><div class="team-role">Researcher</div></div>
+      <div class="team-card fade-in fade-delay-3"><div class="team-avatar">HG</div><div class="team-name">Harshit Golani</div><div class="team-role">Researcher</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <div class="footer-brand">Designing Against Digital Harm</div>
+        <p>EHIX Design Thinking Project · May 2026</p>
+        <p>Cyberbullying &amp; Online Fraud in India</p>
+      </div>
+      <div class="footer-col">
+        <p style="margin-bottom:.5rem;color:rgba(250,250,247,.7);letter-spacing:.08em;text-transform:uppercase;font-size:.68rem">Pages</p>
+        <ul class="footer-links">
+          <li><a href="pages/empathize.html">Research &amp; Interviews</a></li>
+          <li><a href="pages/personas.html">User Personas</a></li>
+          <li><a href="pages/define.html">Problem Definition</a></li>
+          <li><a href="pages/case-studies.html">Case Studies</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p style="margin-bottom:.5rem;color:rgba(250,250,247,.7);letter-spacing:.08em;text-transform:uppercase;font-size:.68rem">More</p>
+        <ul class="footer-links">
+          <li><a href="pages/ideate.html">Ideation Workshop</a></li>
+          <li><a href="pages/solution.html">Solution Design</a></li>
+          <li><a href="pages/legal.html">Legal Framework</a></li>
+          <li><a href="pages/research.html">Research Insights</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Empathize → Define → Ideate</p>
+        <p>Prototype → Test</p>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <p style="text-align:center;font-size:.72rem">Divyam Bafna · Manya Goyal · Rishabh Chaturvedi · Tanishka Sirohi · Rachit Ajmera · Naitik Gaur · Harshit Brar · Harshit Golani</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
